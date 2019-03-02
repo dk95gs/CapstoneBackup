@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './containers/Layout/Layout';
 import { Home } from './containers/Home/Home';
+import { About } from './containers/About/About';
 
 export default class App extends Component {
     displayName = App.name;
@@ -19,6 +20,7 @@ export default class App extends Component {
             });
             console.log("fired");
             document.getElementById("nav").style.filter = "invert(100%)";
+            document.getElementById("myContainerHeader").style.filter = "invert(100%)";
             document.getElementById("headerMain").style.backgroundImage = "linear-gradient(#0F2027, #203A43,#2C5364)";
             document.getElementById("headerMain").style.color = "#fff";
             
@@ -29,6 +31,7 @@ export default class App extends Component {
             });
             console.log("fire2d");
             document.getElementById("nav").style.filter = ""; 
+            document.getElementById("myContainerHeader").style.filter = ""; 
             document.getElementById("headerMain").style.backgroundImage = "linear-gradient(#2980B9, #6DD5FA, #FFFFFF)";
             document.getElementById("headerMain").style.color = "#000";
         }
@@ -38,6 +41,8 @@ export default class App extends Component {
     return (
         <Layout>
             <Route exact path='/' render={() => <Home bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
+            <Route exact path='/about' render={() => <About bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
+
       </Layout>
     );
   }

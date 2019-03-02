@@ -43,6 +43,7 @@ namespace Thea.Controllers
             rec.MissionStatementBlockContent = hp.MissionStatementBlockContent;
             rec.EmbededVideoUrl = hp.EmbededVideoUrl;
             rec.VideoDescription = hp.VideoDescription;
+            rec.VideoTitle = hp.VideoTitle;
             await _db.SaveChangesAsync();
             return Ok("200");
         }

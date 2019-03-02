@@ -22,5 +22,6 @@ namespace Thea.Models
         public string EmbededVideoUrl { get; set; }
 
         public string VideoDescription { get; set; }
+        public string VideoTitle { get; set; }
     }
 }
