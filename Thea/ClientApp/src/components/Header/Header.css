@@ -1,0 +1,32 @@
+﻿.headerMain {
+    background-image: linear-gradient(#2980B9, #6DD5FA,#FFFFFF);
+    width: 100%;
+    height: 100%;
+    color: #000;
+    text-align: center;
+    position: relative;
+    margin: auto;
+    padding: .5rem;
+}
+
+.headerHeading {
+    font: 260% arial, bold, sans-serif;
+    letter-spacing: 4px;
+    font-weight:700;
+}
+
+.headerSubHeading {
+    font: 140% arial, normal, sans-serif;
+    font-weight:600;
+}
+
+.headerUnderline {
+    background-image: linear-gradient(#bdc3c7, #2c3e50);
+    width: 100%;
+    height: 1rem;
+}
+
+.headerLogo {
+    width: 5rem;
+    height: 5rem;
+}

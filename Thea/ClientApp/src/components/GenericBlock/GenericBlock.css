@@ -1,0 +1,22 @@
+﻿.welcomeBlock {
+    background-color: #fff;
+    width: 75%;
+    margin: 2rem auto 2rem auto;
+    box-shadow: inset 0 0 10px #000000;
+    border-radius: 10px;
+    padding:1rem;
+}
+.welcomeBlock h1 {
+    font-weight:800;
+}
+.welcomeBlock h2 {
+    font-weight: 700;
+}
+.welcomeBlockContent{
+    text-align:left;
+}
+.welcomeBlockContent p {
+    font-size:135%;
+    font-family: Verdana;
+    font-weight:400;
+}
