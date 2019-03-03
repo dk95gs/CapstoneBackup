@@ -17,6 +17,8 @@ namespace Thea.Models
 
         public string MissionStatementBlockHeading { get; set; }
 
+        public string MissionStatementBlockSubHeading { get; set; }
+
         public string MissionStatementBlockContent { get; set; }
 
         public string EmbededVideoUrl { get; set; }

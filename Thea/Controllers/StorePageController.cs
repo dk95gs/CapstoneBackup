@@ -27,7 +27,7 @@ namespace Thea.Controllers
 
             return rec;
         }
-        [HttpPost]
+        [HttpPut]
         public async Task<object> Update(StorePage sp)
         {
             if (!ModelState.IsValid)

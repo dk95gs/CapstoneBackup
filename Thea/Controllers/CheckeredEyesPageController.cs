@@ -26,7 +26,7 @@ namespace Thea.Controllers
 
             return rec;
         }
-        [HttpPost]
+        [HttpPut]
         public async Task<object> Update(CheckeredEyesPage cep)
         {
             var rec = _db.CheckeredEyesPages.Find(cep.Id);

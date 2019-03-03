@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import './Layout.css';
 
 export class Layout extends Component {
     displayName = Layout.name
     state = {
-        fontSize: 100
+        fontSize: 100,
+        headerStyles: {}
     };
 
     increaseFontSizeHandler = () => {
@@ -22,7 +24,6 @@ export class Layout extends Component {
             fontSize: changedFontSize
         });
     };
-
     render() {
         var style = {
             fontSize: this.state.fontSize + "%"
@@ -38,7 +39,8 @@ export class Layout extends Component {
               <div className="container-fluid text-center" style={style}>
                   <Navbar />
                   {this.props.children}
-              </div>      
+              </div> 
+              <Footer />
           </div>
     );
   }

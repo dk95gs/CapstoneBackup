@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
 import GenericBlock from '../../components/GenericBlock/GenericBlock';
+import axios from 'axios';
+
 export class About extends Component {
     displayName = About.name;
     state = {
-        aboutHeading: 'The Checkered Eye Project (CEP)',
-        aboutContent: ['The Checkered Eye Project (CEP) was founded in 2000 by Libby Thaw, a stay at home mother in Port Elgin, Ontario. Living with low vision herself, Thaw noticed an unmet need for a hands free identifier that could also be discreet if need be. ',
-            'When support for the necessary awareness effort was declined by service agencies for the blind in Canada, Thaw decided to go ahead on her own. ',
-            'Funding for the project is provided by Thaw, with a small income coming from the sale of checkered eyes. Having considered registration as a charity or not-for-profit-organization, Thaw determined that it would complicate procedures more than add to the awareness efforts. Therefore, the CEP is registered as a business. ',
-            'While a few retail stores offer checkered eyes, many of the "outlets" are people who wanted to help and make checkered eyes available from their homes. ',
-            'In cooperative awareness efforts taking place in The US, New Zealand, Switzerland, and most recently Thailand, the process is largely in the hands of people with low vision. Significant collaboration with chapters of the Rotary Club has also boosted our efforts. ',
-            'Hoping to enlist chambers of commerce and eye care specialists, the CEP is slowly gaining awareness and partners in the education process.'],
-        ackTitle: 'Acknowledgements',
-        ackSubTitle: 'The Checkered Eye Project would like to gratefully acknowledge the following organizations for their cooperative participation in our awareness efforts. ',
-        ackContent: ['The Rotary Club of Port Elgin and Charitable Trust', 'AMI (Accessible Media Inc.)',
-            'The Alliance for Equality of Blind Canadians (AEBC)', 'Grey Bruce Health Services', 'The Rotary Club of Ambridge, PA',
-            'Corporate Plus Marketing & Promotions Inc.', 'CI360 Continuous Improvement Consulting', 'The Toronto Transit Commission',
-        'The Rotary Club of Port Elgin and Charitable Trust']
+        aboutHeading: '',
+        aboutContent: [],
+        ackTitle: '',
+        ackSubTitle:'',
+        ackContent: [],
+        FAQBlockQA: []
+    }
+    componentDidMount() {
+
+        axios.get(window.location.origin + "/api/About").then(response => {
+            const data = response.data;
+            this.setState({
+                aboutHeading: data.aboutBlockHeading,
+                aboutContent: JSON.parse(data.aboutBlockContent),
+                ackTitle: data.achnowledgementsBlockTitle,
+                ackSubTitle: data.achnowledgementsBlockDescription,
+                ackContent: JSON.parse(data.achnowledgementsBlockList),
+                FAQBlockQA: JSON.parse(data.faqBlockQA)
+            });
+        });
     }
     render() {
         
@@ -23,10 +32,13 @@ export class About extends Component {
             color: this.props.fontColor,
             backgroundColor: this.props.bgColor
         };
+        const headerStyles = {
+            filter: localStorage.getItem("headerFilter")
+        };
         return (
             <div className="myContainer">
                 <input type="button" onClick={this.props.click} className="btn btn-warning btnSwitch" value="Switch Colors" />
-                <div className="myContainerHeader" id="myContainerHeader">
+                <div className="myContainerHeader" id="myContainerHeader" style={headerStyles}>
                     <h1>About The Project</h1>
                 </div>
                 <GenericBlock
@@ -40,6 +52,12 @@ export class About extends Component {
                     content={this.state.ackContent}
                     styles={styles}
                     isList={true} />
+                <GenericBlock
+                    heading="Frequently Asked Questions"
+                    isFAQ={true}
+                    content={this.state.FAQBlockQA}
+                    styles={styles}
+                />
             </div>
             );
     }

@@ -8,19 +8,28 @@ const GenericBlock = (props) => {
             <h3>{props.subHeading}</h3>
             <div className="genericBlockContent">
                 {
-                    props.noContent != true ? 
-                        props.isList == true ?
-                            <ul>
-                                {
-                                    content.map((p) => {
-                                        return <li>{p}</li>
-                                    })
-                                }
-                            </ul>
-                            : content.map((p) => {
-                                return <p>{p}</p>
-                            })
-                     : null
+                    props.isFAQ !== true ?
+                        props.noContent !== true ?
+                            props.isList === true ?
+                                <ul>
+                                    {
+                                        content.map((p, i) => {
+                                            return <li key={i}>{p}</li>
+                                        })
+                                    }
+                                </ul>
+                                : content.map((p, i) => {
+                                    return <p key={i}>{p}</p>
+                                })
+                            : null
+                        : content.map((p, index) => {
+                            return <div key={index}>
+                                <p style={{ fontWeight: "bold" }}>{index + 1 + ". "}{p.question}</p>
+                                {p.answer.map((a, i) => {
+                                    return <p key={i}> {a} </p>
+                                })}
+                            </div>
+                        })
                 }         
                 {props.children}
             </div>

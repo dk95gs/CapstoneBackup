@@ -14,6 +14,7 @@ namespace Thea.Models
         public string AboutBlockContent { get; set; }
 
         public string FAQBlockQA{ get; set; }
+        public string AchnowledgementsBlockTitle { get; set; }
 
         public string AchnowledgementsBlockDescription { get; set; }
 

@@ -13,6 +13,9 @@
 .genericBlock h2 {
     font-weight: 700;
 }
+.genericBlock h3 {
+    font-size:140%;
+}
 .genericBlockContent{
     text-align:left;
 }

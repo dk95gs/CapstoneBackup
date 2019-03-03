@@ -8,7 +8,7 @@ const Header = () => {
                 <div>                  
                     <span className="headerHeading">THE CHECKERED EYE PROJECT</span>
                 </div>
-                <img className="headerLogo" src={logo} />
+                <img className="headerLogo" src={logo} alt="logo" />
                 <div>
                     <span className="headerSubHeading"> People wearing this symbol have partial blindness aka low vision </span>
                 </div>
@@ -16,7 +16,7 @@ const Header = () => {
             </div>
             <div className="headerUnderline"></div>
         </div>
-        );
+    );
 }
 
 export default Header;

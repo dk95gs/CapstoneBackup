@@ -36,14 +36,23 @@ namespace Thea.Controllers
 
             var rec = _db.HomePage.Find(hp.Id);
 
-            rec.WelcomeBlockHeading = hp.WelcomeBlockHeading;
-            rec.WelcomeBlockContent = hp.WelcomeBlockContent;
-            rec.WelcomeBlockSubHeading = hp.WelcomeBlockSubHeading;
-            rec.MissionStatementBlockHeading = hp.MissionStatementBlockHeading;
-            rec.MissionStatementBlockContent = hp.MissionStatementBlockContent;
-            rec.EmbededVideoUrl = hp.EmbededVideoUrl;
-            rec.VideoDescription = hp.VideoDescription;
-            rec.VideoTitle = hp.VideoTitle;
+            if (rec == null)
+            {
+                _db.Add(hp);
+            }
+            else
+            {
+
+
+                rec.WelcomeBlockHeading = hp.WelcomeBlockHeading;
+                rec.WelcomeBlockContent = hp.WelcomeBlockContent;
+                rec.WelcomeBlockSubHeading = hp.WelcomeBlockSubHeading;
+                rec.MissionStatementBlockHeading = hp.MissionStatementBlockHeading;
+                rec.MissionStatementBlockContent = hp.MissionStatementBlockContent;
+                rec.EmbededVideoUrl = hp.EmbededVideoUrl;
+                rec.VideoDescription = hp.VideoDescription;
+                rec.VideoTitle = hp.VideoTitle;
+            }
             await _db.SaveChangesAsync();
             return Ok("200");
         }
