@@ -40,7 +40,7 @@ export class Layout extends Component {
                   <Navbar />
                   {this.props.children}
               </div> 
-              <Footer />
+              <Footer styles={style} />
           </div>
     );
   }

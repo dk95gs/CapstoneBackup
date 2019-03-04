@@ -13,6 +13,8 @@ namespace Thea.Models
 
         public string Description { get; set; }
 
+        public string PurchaseInfoHeading { get; set; }
+
         public string PurchaseInfo { get; set; }
 
         public string LocationList { get; set; }

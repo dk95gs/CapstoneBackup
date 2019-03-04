@@ -24,6 +24,7 @@ namespace Thea.Models
         public DbSet<ShopItems> ShopItems { get; set; }
         public DbSet<SocialMedia> SocialMedia{ get; set; }
         public DbSet<StorePage> StorePage { get; set; }
+        public DbSet<Links> Links { get; set; }
     }
    
 }

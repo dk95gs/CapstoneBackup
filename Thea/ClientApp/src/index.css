@@ -52,3 +52,8 @@ h1 {
     right: 1rem;
     z-index: 1000;
 }
+p, li {
+    font-size: 120%;
+    font-family: Verdana;
+    font-weight: 400;
+}

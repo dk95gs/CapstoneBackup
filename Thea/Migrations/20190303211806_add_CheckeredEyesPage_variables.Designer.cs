@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Thea.Models;
 
 namespace Thea.Migrations
 {
     [DbContext(typeof(AuthContext))]
-    partial class AuthContextModelSnapshot : ModelSnapshot
+    [Migration("20190303211806_add_CheckeredEyesPage_variables")]
+    partial class add_CheckeredEyesPage_variables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,28 +304,13 @@ namespace Thea.Migrations
                     b.ToTable("HomePage");
                 });
 
-            modelBuilder.Entity("Thea.Models.Links", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("SrcURL");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Links");
-                });
-
             modelBuilder.Entity("Thea.Models.Printables", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("SrcURL");
+                    b.Property<int>("SrcURL");
 
                     b.Property<string>("Title");
 
@@ -379,8 +366,6 @@ namespace Thea.Migrations
                     b.Property<string>("LocationList");
 
                     b.Property<string>("PurchaseInfo");
-
-                    b.Property<string>("PurchaseInfoHeading");
 
                     b.HasKey("Id");
 

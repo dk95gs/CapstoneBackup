@@ -9,6 +9,7 @@ using Thea.Models;
 
 namespace Thea.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class BlogsController : ControllerBase

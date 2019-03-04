@@ -26,14 +26,25 @@ namespace Thea.Controllers
 
             return rec;
         }
-        [HttpPut]
+        [HttpPost]
         public async Task<object> Update(CheckeredEyesPage cep)
         {
             var rec = _db.CheckeredEyesPages.Find(cep.Id);
-            rec.AttentionLowVisionBlockContent = cep.AttentionLowVisionBlockContent;
-            rec.AttentionSightedBlockContent = cep.AttentionSightedBlockContent;
-            rec.SymbolUseBlockDescription = cep.SymbolUseBlockDescription;
-            rec.SymbolUseQAList = cep.SymbolUseQAList;
+            if (rec == null)
+            {
+                _db.Add(cep);
+            }
+            else
+            {
+
+                rec.AttentionLowVissionBlockTitle = cep.AttentionLowVissionBlockTitle;
+                rec.AttentionLowVisionBlockContent = cep.AttentionLowVisionBlockContent;
+                rec.AttentionSightedBlockTitle = cep.AttentionSightedBlockTitle;
+                rec.AttentionSightedBlockContent = cep.AttentionSightedBlockContent;
+                rec.SymbolUseBlockTitle = cep.SymbolUseBlockTitle;
+                rec.SymbolUseBlockDescription = cep.SymbolUseBlockDescription;
+                rec.SymbolUseQAList = cep.SymbolUseQAList;
+            }
             await _db.SaveChangesAsync();
             return Ok("200");
         }

@@ -8,13 +8,14 @@ namespace Thea.Models
     public class CheckeredEyesPage
     {
         public int Id { get; set; }
-
+        public string SymbolUseBlockTitle { get; set; }
         public string SymbolUseBlockDescription { get; set; }
 
         public string SymbolUseQAList { get; set; }
-
+        public string AttentionLowVissionBlockTitle { get; set; }
         public string AttentionLowVisionBlockContent { get; set; }
-
+        public string AttentionSightedBlockTitle { get; set; }
         public string AttentionSightedBlockContent { get; set; }
+
     }
 }

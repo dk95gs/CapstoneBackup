@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Thea.Models
 {
-    public class Printables
+    public class Links
     {
         public int Id { get; set; }
 

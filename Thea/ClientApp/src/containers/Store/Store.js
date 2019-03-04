@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import GenericBlock from '../../components/GenericBlock/GenericBlock';
-import Video from '../../components/Video/Video';
-import axios from 'axios';
+//import GenericBlock from '../../components/GenericBlock/GenericBlock';
+//import axios from 'axios';
 import './Store.css';
 
 export class Store extends Component {
     displayName = Store.name;
     render() {
-        const styles = {
+       /* const styles = {
             color: this.props.fontColor,
             backgroundColor: this.props.bgColor
-        };
+        };*/
         const headerStyles = {
             filter: localStorage.getItem("headerFilter")
         };

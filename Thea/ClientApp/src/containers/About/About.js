@@ -55,7 +55,7 @@ export class About extends Component {
                 <GenericBlock
                     heading="Frequently Asked Questions"
                     isFAQ={true}
-                    content={this.state.FAQBlockQA}
+                    faqContent={this.state.FAQBlockQA}
                     styles={styles}
                 />
             </div>

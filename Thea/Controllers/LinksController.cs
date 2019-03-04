@@ -12,37 +12,37 @@ namespace Thea.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PrintablesController : ControllerBase
+    public class LinksController : ControllerBase
     {
         private readonly AuthContext _context;
 
-        public PrintablesController(AuthContext context)
+        public LinksController(AuthContext context)
         {
             _context = context;
         }
 
-        // GET: api/Printables
+        // GET: api/Links
         [HttpGet]
-        public IEnumerable<Printables> GetPrintables()
+        public IEnumerable<Links> GetLinks()
         {
-            return _context.Printables;
+            return _context.Links;
         }
 
-        // PUT: api/Printables/5
+        // PUT: api/Links/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPrintables([FromRoute] int id, [FromBody] Printables printables)
+        public async Task<IActionResult> PutLinks([FromRoute] int id, [FromBody] Links links)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != printables.Id)
+            if (id != links.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(printables).State = EntityState.Modified;
+            _context.Entry(links).State = EntityState.Modified;
 
             try
             {
@@ -50,7 +50,7 @@ namespace Thea.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PrintablesExists(id))
+                if (!LinksExists(id))
                 {
                     return NotFound();
                 }
@@ -63,45 +63,45 @@ namespace Thea.Controllers
             return NoContent();
         }
 
-        // POST: api/Printables
+        // POST: api/Links
         [HttpPost]
-        public async Task<IActionResult> PostPrintables([FromBody] Printables printables)
+        public async Task<IActionResult> PostLinks([FromBody] Links links)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Printables.Add(printables);
+            _context.Links.Add(links);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPrintables", new { id = printables.Id }, printables);
+            return CreatedAtAction("GetLinks", new { id = links.Id }, links);
         }
 
-        // DELETE: api/Printables/5
+        // DELETE: api/Links/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePrintables([FromRoute] int id)
+        public async Task<IActionResult> DeleteLinks([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var printables = await _context.Printables.FindAsync(id);
-            if (printables == null)
+            var links = await _context.Links.FindAsync(id);
+            if (links == null)
             {
                 return NotFound();
             }
 
-            _context.Printables.Remove(printables);
+            _context.Links.Remove(links);
             await _context.SaveChangesAsync();
 
-            return Ok(printables);
+            return Ok(links);
         }
 
-        private bool PrintablesExists(int id)
+        private bool LinksExists(int id)
         {
-            return _context.Printables.Any(e => e.Id == id);
+            return _context.Links.Any(e => e.Id == id);
         }
     }
 }
