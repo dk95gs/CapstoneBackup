@@ -12,9 +12,14 @@ const GenericBlock = (props) => {
     //Logic to fill faqDescription variable
     //Checks if both content and FAQ are being passed and renders the content
     if (props.hasContentAndFAQ === true) {
-        faqDescription = content.map((p, i) => {
-            return <p key={i}>{p}</p>
-        });
+        try {
+            faqDescription = content.map((p, i) => {
+                return <p key={i}>{p}</p>
+            });
+        }
+        catch (error) {
+            console.log('%c No content was passed OR content that was passed is not an Array of Strings', 'background: #222; color: lightgreen');
+        }
     }
     //Logic to fill lstParaFAQContent variable
     //Checks if FAQ content is being passed
@@ -23,21 +28,31 @@ const GenericBlock = (props) => {
         if (props.noContent !== true) {
             //Checks if the content that was passed in should be rendered as a list
             if (props.isList === true) {
-                lstParaFAQContent =
-                    <ul>
-                    {
-                        content.map((p, i) => {
-                            return <li key={i}>{p}</li>
-                        })
-                    }
-                    </ul>
+                try {
+                    lstParaFAQContent =
+                        <ul>
+                            {
+                                content.map((p, i) => {
+                                    return <li key={i}>{p}</li>
+                                })
+                            }
+                        </ul>
+                }
+                catch (error) {
+                    console.log('%c No content was passed OR content that was passed is not an Array of Strings', 'background: #222; color: lightgreen');
+                }
             }
             //renders content as paragraphs
             else
             {
-                lstParaFAQContent = content.map((p, i) => {
-                    return <p key={i}>{p}</p>
-                });
+                try {
+                    lstParaFAQContent = content.map((p, i) => {
+                        return <p key={i}>{p}</p>
+                    });
+                }
+                catch (error) {
+                    console.log('%c No content was passed OR content that was passed is not an Array of Strings', 'background: #222; color: lightgreen');                  
+                }
             }
         }
         //No content gets rendered
@@ -49,49 +64,71 @@ const GenericBlock = (props) => {
     //FAQ content was passed in and it gets rendered
     else
     {
-        lstParaFAQContent = faqContent.map((p, index) => {
-            return <div key={index}>
-                <p style={{ fontWeight: "bold" }}>{index + 1 + ". "}{p.question}</p>
-                {p.answer.map((a, i) => {
-                    return <p key={i}> {a} </p>
-                })}
-            </div>
-        });
+        try {
+            lstParaFAQContent = faqContent.map((p, index) => {
+                return <div key={index}>
+                    <p style={{ fontWeight: "bold" }}>{index + 1 + ". "}{p.question}</p>
+                    {p.answer.map((a, i) => {
+                        return <p key={i}> {a} </p>
+                    })}
+                </div>
+            });
+        }
+        catch (error) {
+            console.log('%c No faqContent was passed OR faqContent passed was' +
+                'the inccorect type - Must be an Array of Objects with question &' +
+                ' answer property with the answer needing to be an Array of Strings[{ question: \'\', answer: [\'\']}]', 'background: #222; color: lightgreen');
+        }
 
     }
     //Logic to fill prtLinkDwnldContent variable
     //Checks if the list should be rendered as links that redirect to an external site
     if (props.isLinks) {
-        prtLinkDwnldContent =
-        <ul>
-            {
-                list.map((l, index) => {
-                return <li key={index}> <a href={l.srcURL} target="_blank"> {l.title }</a></li>
-                    })
-            }
-        </ul>    
+        try {
+            prtLinkDwnldContent =
+                <ul>
+                    {
+                        list.map((l, index) => {
+                            return <li key={index}> <a href={l.srcURL} target="_blank"> {l.title}</a></li>
+                        })
+                    }
+                </ul>
+        }
+        catch (error) {
+            console.log('%c No list was pass OR incorrect type was passed in for list', 'background: #222; color: lightgreen');
+        }
     }
     //Checks if the list should be rendered as links that open a file from the site(pdf, word doc, ect..)
     if (props.isPrintable) {
-        prtLinkDwnldContent = 
-        <ul>
-        {
-            list.map((l, index) => {
-                return <li key={index}> <a href={window.location.origin + l.srcURL} target="_blank"> {l.title} </a> </li>
-            })
+        try {
+            prtLinkDwnldContent =
+                <ul>
+                    {
+                        list.map((l, index) => {
+                            return <li key={index}> <a href={window.location.origin + l.srcURL} target="_blank"> {l.title} </a> </li>
+                        })
+                    }
+                </ul>
         }
-        </ul>
+        catch (error) {
+            console.log('%c No list was pass OR incorrect type was passed in for list', 'background: #222; color: lightgreen');
+        }
     }
     //Checks if the list should be rendered as links that start downloading a file from the site
     if (props.isDownloadable) {
-        prtLinkDwnldContent = 
-        <ul>
-            {
-                list.map((l, index) => {
-                    return <li key={index}> <a href={window.location.origin + l.srcURL} download> {l.title} </a> </li>
-                })
-            }
-        </ul>
+        try {
+            prtLinkDwnldContent =
+                <ul>
+                    {
+                        list.map((l, index) => {
+                            return <li key={index}> <a href={window.location.origin + l.srcURL} download> {l.title} </a> </li>
+                        })
+                    }
+                </ul>
+        }
+        catch (error) {
+            console.log('%c No list was pass OR incorrect type was passed in for list', 'background: #222; color: lightgreen');
+        }
     }
     return (
         <div className="genericBlock" id="genericBlock" style={props.styles}>
