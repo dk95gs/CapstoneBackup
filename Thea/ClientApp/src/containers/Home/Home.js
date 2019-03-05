@@ -62,14 +62,15 @@ export class Home extends Component {
                     subHeading={this.state.missionSubHeading}
                     content={this.state.missionContent}
                     styles={styles}
-                    isList={true} />       
+                    isList={true} />   
+                
                 <GenericBlock
                     heading={this.state.videoTitle}
                     videoDescription={this.state.videoDescription}
                     styles={styles}
                     noContent={true}>
                     <Video video={this.state.embededVideo} />
-                </GenericBlock>   
+                </GenericBlock>
       </div>
     );
   }

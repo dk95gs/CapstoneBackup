@@ -8,14 +8,20 @@ const GenericBlock = (props) => {
     let lstParaFAQContent = null;
     let faqDescription = null;
     let prtLinkDwnldContent = null;
-    
+
+    //Logic to fill faqDescription variable
+    //Checks if both content and FAQ are being passed and renders the content
     if (props.hasContentAndFAQ === true) {
         faqDescription = content.map((p, i) => {
             return <p key={i}>{p}</p>
         });
     }
+    //Logic to fill lstParaFAQContent variable
+    //Checks if FAQ content is being passed
     if (props.isFAQ !== true) {
+        //Checks if there is no content
         if (props.noContent !== true) {
+            //Checks if the content that was passed in should be rendered as a list
             if (props.isList === true) {
                 lstParaFAQContent =
                     <ul>
@@ -26,6 +32,7 @@ const GenericBlock = (props) => {
                     }
                     </ul>
             }
+            //renders content as paragraphs
             else
             {
                 lstParaFAQContent = content.map((p, i) => {
@@ -33,11 +40,13 @@ const GenericBlock = (props) => {
                 });
             }
         }
+        //No content gets rendered
         else
         {
             //no content
         }
     }
+    //FAQ content was passed in and it gets rendered
     else
     {
         lstParaFAQContent = faqContent.map((p, index) => {
@@ -50,6 +59,8 @@ const GenericBlock = (props) => {
         });
 
     }
+    //Logic to fill prtLinkDwnldContent variable
+    //Checks if the list should be rendered as links that redirect to an external site
     if (props.isLinks) {
         prtLinkDwnldContent =
         <ul>
@@ -60,6 +71,7 @@ const GenericBlock = (props) => {
             }
         </ul>    
     }
+    //Checks if the list should be rendered as links that open a file from the site(pdf, word doc, ect..)
     if (props.isPrintable) {
         prtLinkDwnldContent = 
         <ul>
@@ -70,6 +82,7 @@ const GenericBlock = (props) => {
         }
         </ul>
     }
+    //Checks if the list should be rendered as links that start downloading a file from the site
     if (props.isDownloadable) {
         prtLinkDwnldContent = 
         <ul>
@@ -80,7 +93,7 @@ const GenericBlock = (props) => {
             }
         </ul>
     }
-        return (
+    return (
         <div className="genericBlock" id="genericBlock" style={props.styles}>
             <h1>{props.heading}</h1>
             <h3>{props.subHeading}</h3>
