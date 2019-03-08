@@ -18,6 +18,11 @@ export class Home extends Component {
         videoTitle: "",
         videoDescription: ""
     };
+    logout = () => {
+        axios.post("http://localhost:63650/api/appuser/logout").then(response => {
+            console.log(response);
+        });
+    }
     componentDidMount() {
         axios.get(window.location.origin + "/api/home").then(response => {
             this.setState({
@@ -33,8 +38,13 @@ export class Home extends Component {
                 videoDescription: response.data.videoDescription
             });
         });
-        
-       
+        const login = {
+            userName: "dilshan",
+            password: "Dilshan1!"
+        };
+        axios.post("http://localhost:63650/api/appuser/login", login).then(response => {
+            console.log(response);
+        });
     }
     render() {
         const styles = {
@@ -50,6 +60,7 @@ export class Home extends Component {
                 <input type="button" onClick={this.props.click} className="btn btn-warning btnSwitch" value="Switch Colors" />
                 <div className="myContainerHeader" id="myContainerHeader" style={headerStyles}>
                     <h1>Home</h1>
+                    <button onClick={this.logout}>dsdas </button>
                 </div>
                 <GenericBlock
                     heading={this.state.welcomeHeading}

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Thea.Models;
 
 namespace Thea.Controllers
@@ -21,11 +26,12 @@ namespace Thea.Controllers
     {
         public UserManager<AppUser> _userManager;
         public SignInManager<AppUser> _signInManager;
-
-        public AppUserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private IConfiguration _config;
+        public AppUserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _config = config;
         }
 
         [HttpPost]
@@ -62,12 +68,22 @@ namespace Thea.Controllers
                 var result = await _signInManager.PasswordSignInAsync(input.UserName, input.Password, false, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    return Ok("Successfully Logged in");
-                    
+                    var claimsData = new[] { new Claim(ClaimTypes.Name, input.UserName) };
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("MyKey").Value));
+                    SigningCredentials signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+                    var token = new JwtSecurityToken(
+                        issuer: "my.site.com",
+                        audience: "my.site.com",
+                        expires: DateTime.Now.AddHours(1),
+                        claims: claimsData,
+                        signingCredentials: signInCred
+                        );
+                    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+                    return Ok(tokenString);                    
                 }
                 else
                 {
-                    return NotFound("Login Failed");
+                    return NotFound("Failed");
                 }
             }
             catch (Exception ex)

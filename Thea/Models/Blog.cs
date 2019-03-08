@@ -12,13 +12,12 @@ namespace Thea.Models
 
         public string Title { get; set; }
 
+        public string Author { get; set; }
+
         public string Content { get; set; }
 
+        public string pictureSrcList { get; set; }
+
         public DateTime PostedDate { get; set; }
-
-        public string AppUserId { get; set; }
-
-        [ForeignKey("AppUserId")]
-        public virtual AppUser AppUser { get; set; }
     }
 }

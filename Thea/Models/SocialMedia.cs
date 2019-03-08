@@ -9,7 +9,7 @@ namespace Thea.Models
     {
         public int Id { get; set; }
 
-        public string SrcURL { get; set; }
+        public string HrefUrl { get; set; }
 
         public string ImageURL { get; set; }
     }

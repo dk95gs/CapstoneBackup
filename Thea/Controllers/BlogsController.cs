@@ -25,7 +25,7 @@ namespace Thea.Controllers
         [HttpGet]
         public IEnumerable<Blog> GetBlog()
         {
-            return _context.Blog;
+            return _context.Blog.OrderByDescending(m => m.PostedDate);
         }
 
         // GET: api/Blogs/5
@@ -90,7 +90,7 @@ namespace Thea.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            blog.PostedDate = DateTime.Now.AddDays(2);
             _context.Blog.Add(blog);
             await _context.SaveChangesAsync();
 

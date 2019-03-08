@@ -28,7 +28,7 @@ export class Layout extends Component {
         var style = {
             fontSize: this.state.fontSize + "%"
         };
-      return (
+        return (
           <div>                   
               <Header />
               <div className="settings text-center">

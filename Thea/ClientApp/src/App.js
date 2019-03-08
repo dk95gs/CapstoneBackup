@@ -52,7 +52,7 @@ export default class App extends Component {
     }
   render() {
     return (
-        <Layout>
+        <Layout test="test">
             <Route exact path='/' render={() => <Home bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
             <Route exact path='/about' render={() => <About bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
             <Route exact path='/checkeredeyes' render={() => <CheckeredEyes bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />

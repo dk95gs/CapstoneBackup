@@ -1,0 +1,13 @@
+﻿.blog {
+
+}
+.blog h4, h5 {
+    text-align:center;
+}
+.blog h4 {
+    font-weight:bold;
+}
+.blogImg {
+    width: 150px;
+    height: 150px;
+}
