@@ -6,7 +6,8 @@ import { About } from './containers/About/About';
 import { CheckeredEyes } from './containers/CheckeredEyes/CheckeredEyes';
 import { Store } from './containers/Store/Store';
 import { Resources } from './containers/Resources/Resources';
-import { BlogSocial } from './containers/BlogSocial/BlogSocial';
+import { BlogSocial } from './containers/Social/Social';
+import { Blogs} from './containers/Blogs/Blogs';
 
 export default class App extends Component {
     displayName = App.name;
@@ -59,7 +60,7 @@ export default class App extends Component {
             <Route exact path='/store' render={() => <Store bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
             <Route exact path='/resources' render={() => <Resources bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
             <Route exact path='/blogsocial' render={() => <BlogSocial bgColor={this.state.bgColor} fontColor={this.state.fontColor} twitterTheme={this.state.twitterTheme}click={this.switchFontColorHandler} />} />
-
+            <Route exact path='/blogs' render={() => <Blogs bgColor={this.state.bgColor} fontColor={this.state.fontColor} twitterTheme={this.state.twitterTheme}click={this.switchFontColorHandler} />} />
       </Layout>
     );
   }

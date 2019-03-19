@@ -1,16 +1,16 @@
 ﻿import React from 'react';
 import logo from '../../images/lowvision.png'
 import './Header.css'
-const Header = () => {
+const Header = (props) => {
     return (
         <div>
             <div className="headerMain" id="headerMain">          
                 <div>                  
-                    <span className="headerHeading">THE CHECKERED EYE PROJECT</span>
+                    <span className="headerHeading">{props.header}</span>
                 </div>
                 <img className="headerLogo" src={logo} alt="logo" />
                 <div>
-                    <span className="headerSubHeading"> People wearing this symbol have partial blindness aka low vision </span>
+                    <span className="headerSubHeading"> {props.subHeading} </span>
                 </div>
                
             </div>

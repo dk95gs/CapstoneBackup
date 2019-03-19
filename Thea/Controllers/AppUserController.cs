@@ -24,8 +24,8 @@ namespace Thea.Controllers
     [ApiController]
     public class AppUserController : ControllerBase
     {
-        public UserManager<AppUser> _userManager;
-        public SignInManager<AppUser> _signInManager;
+        private UserManager<AppUser> _userManager;
+        private SignInManager<AppUser> _signInManager;
         private IConfiguration _config;
         public AppUserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration config)
         {

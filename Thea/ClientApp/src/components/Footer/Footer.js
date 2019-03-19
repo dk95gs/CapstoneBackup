@@ -8,24 +8,23 @@ const Footer = (props) => {
                 <div className="contact">
                     <div className="row">
                         <div className="col-12">
-                            <p>Address: 409 Peirson Ave., Port Elgin, Ontario, Canada    N0H 2C1 </p>
+                            <p>{props.streetName}, {props.city}, {props.province}, {props.country} {props.postalCode} </p>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-4">
-                            <p>Call Local: (519)-389-4956 </p>
+                            <p>Call Local: {props.localNumber} </p>
                         </div>
                         <div className="col-4">
-                            <p>Call Toll Free: 1-(844)-880-4956</p>
+                            <p>Call Toll Free:{props.tollFreeNumber}</p>
                         </div>
                         <div className="col-4">
-                            <p> Email: info@checkeredeye.com</p>
+                            <p> Email: {props.email}</p>
                         </div>
                     </div>
                 </div>
                 <hr />
-                © 2019 The Checkered Eye Project. All rights reserved. All Postive Revision.
-* Logo and symbol are trademark and copyright of Libby Thaw. 
+                © {props.footerMessage}
             </div>
             
         </div>
