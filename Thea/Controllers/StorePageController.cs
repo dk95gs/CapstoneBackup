@@ -35,11 +35,18 @@ namespace Thea.Controllers
                 return BadRequest(ModelState);
             }
             var rec = _db.StorePage.Find(sp.Id);
-            rec.Heading = sp.Heading;
-            rec.Description = sp.Description;
-            rec.PurchaseInfo = sp.PurchaseInfo;
-            rec.LocationList = sp.LocationList;
 
+            if (rec == null)
+            {
+                _db.Add(sp);
+            }
+            else
+            {
+                rec.Heading = sp.Heading;
+                rec.Description = sp.Description;
+                rec.PurchaseInfo = sp.PurchaseInfo;
+                rec.LocationList = sp.LocationList;
+            }
             await _db.SaveChangesAsync();
             return Ok("200");
         }
