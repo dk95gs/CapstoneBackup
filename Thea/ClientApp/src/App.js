@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Route } from 'react-router';
 import { Layout } from './containers/Layout/Layout';
 import { Home } from './containers/Home/Home';
@@ -6,7 +7,7 @@ import { About } from './containers/About/About';
 import { CheckeredEyes } from './containers/CheckeredEyes/CheckeredEyes';
 import { Store } from './containers/Store/Store';
 import { Resources } from './containers/Resources/Resources';
-import { BlogSocial } from './containers/Social/Social';
+import { Social } from './containers/Social/Social';
 import { Blogs} from './containers/Blogs/Blogs';
 
 export default class App extends Component {
@@ -14,7 +15,8 @@ export default class App extends Component {
     state = {
         fontColor: '#000',
         bgColor: '#fff',
-        twitterTheme:"light"
+        twitterTheme: "light",
+        isLoggedIn: false
     };
     switchFontColorHandler = () => {
         
@@ -51,15 +53,40 @@ export default class App extends Component {
         }
         
     }
+
+    checkIfLoggedIn = () => {
+        return this.state.isLoggedIn;
+    }
+    loginUser = (userName, password) => {
+        let payload = {
+            userName: userName,
+            password: password
+        }
+        return axios.post(window.location.origin + "/api/appuser/login", payload).then(() => {
+            this.setState({
+                isLoggedIn: true
+            });
+            return true;
+        }).catch(() => {
+            return "Login/Password Incorrect";
+        });
+    }
+    logout = () => {
+        axios.post(window.location.origin + "/api/appuser/logout").then(response => {
+            this.setState({
+                isLoggedIn: false
+            });
+        });
+    }
   render() {
     return (
-        <Layout test="test">
+        <Layout loginUser={this.loginUser} checkIfLoggedIn={this.checkIfLoggedIn} logout={this.logout}>
             <Route exact path='/' render={() => <Home bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
             <Route exact path='/about' render={() => <About bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
             <Route exact path='/checkeredeyes' render={() => <CheckeredEyes bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
             <Route exact path='/store' render={() => <Store bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
             <Route exact path='/resources' render={() => <Resources bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
-            <Route exact path='/blogsocial' render={() => <BlogSocial bgColor={this.state.bgColor} fontColor={this.state.fontColor} twitterTheme={this.state.twitterTheme}click={this.switchFontColorHandler} />} />
+            <Route exact path='/social' render={() => <Social bgColor={this.state.bgColor} fontColor={this.state.fontColor} twitterTheme={this.state.twitterTheme}click={this.switchFontColorHandler} />} />
             <Route exact path='/blogs' render={() => <Blogs bgColor={this.state.bgColor} fontColor={this.state.fontColor} twitterTheme={this.state.twitterTheme}click={this.switchFontColorHandler} />} />
       </Layout>
     );

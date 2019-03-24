@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
+import { Auth } from '../../containers/Auth/Auth';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
@@ -61,7 +62,14 @@ export class Layout extends Component {
                     tollFreeNumber={this.state.contactInfo.tollFreeNumber}
                     email={this.state.contactInfo.email}
                     footerMessage={this.state.contactInfo.footerMessage}
-                    styles={style} />
+                    styles={style} >
+                    <Auth
+                        style={style}
+                        loginUser={this.props.loginUser}
+                        checkIfLoggedIn={this.props.checkIfLoggedIn}
+                        logout={this.props.logout}/>
+                </Footer>
+                
           </div>
     );
   }

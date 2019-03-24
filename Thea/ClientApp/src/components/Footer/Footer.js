@@ -24,7 +24,10 @@ const Footer = (props) => {
                     </div>
                 </div>
                 <hr />
+                {props.children}
+                <hr />
                 © {props.footerMessage}
+                
             </div>
             
         </div>

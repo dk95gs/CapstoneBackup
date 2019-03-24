@@ -38,8 +38,6 @@ namespace Thea.Controllers
         [Route("Register")]
         public async Task<Object> RegisterUser(UserRegistrationInputModel input)
         {
-            bool start = true;
-            string test = "";
             var appUser = new AppUser()
             {
                 UserName = input.UserName,
@@ -55,7 +53,6 @@ namespace Thea.Controllers
             }
             catch (Exception ex)
             {
-
                 throw ex.InnerException;
             }
         }
@@ -79,7 +76,7 @@ namespace Thea.Controllers
                         signingCredentials: signInCred
                         );
                     var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                    return Ok(tokenString);                    
+                    return Ok("success");                    
                 }
                 else
                 {

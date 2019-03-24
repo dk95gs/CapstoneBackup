@@ -23,6 +23,7 @@ export class Home extends Component {
             console.log(response);
         });
     }
+
     componentDidMount() {
         axios.get(window.location.origin + "/api/home").then(response => {
             this.setState({

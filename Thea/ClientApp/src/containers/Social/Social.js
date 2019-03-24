@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { Timeline } from 'react-twitter-widgets'
 import GenericBlock from '../../components/GenericBlock/GenericBlock';
 import Socials from '../../components/Socials/Socials';
-import Blog from '../../components/Blog/Blog';
 import axios from 'axios';
 import './Social.css';
 
-export class BlogSocial extends Component {
-    displayName = BlogSocial.name;
+export class Social extends Component {
+    displayName = Social.name;
     state = {
         socials: []
     };

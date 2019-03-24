@@ -23,6 +23,7 @@ export class Store extends Component {
                 purchaseInfo: JSON.parse(response.data.purchaseInfo)
             });
         });
+
     }
     render() {
        const styles = {
