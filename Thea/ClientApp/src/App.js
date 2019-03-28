@@ -81,13 +81,78 @@ export default class App extends Component {
   render() {
     return (
         <Layout loginUser={this.loginUser} checkIfLoggedIn={this.checkIfLoggedIn} logout={this.logout}>
-            <Route exact path='/' render={() => <Home bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
-            <Route exact path='/about' render={() => <About bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
-            <Route exact path='/checkeredeyes' render={() => <CheckeredEyes bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
-            <Route exact path='/store' render={() => <Store bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
-            <Route exact path='/resources' render={() => <Resources bgColor={this.state.bgColor} fontColor={this.state.fontColor} click={this.switchFontColorHandler} />} />
-            <Route exact path='/social' render={() => <Social bgColor={this.state.bgColor} fontColor={this.state.fontColor} twitterTheme={this.state.twitterTheme}click={this.switchFontColorHandler} />} />
-            <Route exact path='/blogs' render={() => <Blogs bgColor={this.state.bgColor} fontColor={this.state.fontColor} twitterTheme={this.state.twitterTheme}click={this.switchFontColorHandler} />} />
+            <Route
+                exact path='/'
+                render={() =>
+                    <Home
+                        bgColor={this.state.bgColor}
+                        fontColor={this.state.fontColor}
+                        click={this.switchFontColorHandler}
+                        loginUser={this.loginUser}
+                        checkIfLoggedIn={this.checkIfLoggedIn}
+                        logout={this.logout} />} />
+            <Route
+                exact path='/about'
+                render={() =>
+                    <About
+                        bgColor={this.state.bgColor}
+                        fontColor={this.state.fontColor} 
+                        click={this.switchFontColorHandler}
+                        loginUser={this.loginUser}
+                        checkIfLoggedIn={this.checkIfLoggedIn}
+                        logout={this.logout} />} />
+            <Route
+                exact path='/checkeredeyes'
+                render={() =>
+                    <CheckeredEyes
+                        bgColor={this.state.bgColor}
+                        fontColor={this.state.fontColor}
+                        click={this.switchFontColorHandler}
+                        loginUser={this.loginUser}
+                        checkIfLoggedIn={this.checkIfLoggedIn}
+                        logout={this.logout} />} />
+            <Route
+                exact path='/store'
+                render={() =>
+                    <Store
+                        bgColor={this.state.bgColor}
+                        fontColor={this.state.fontColor}
+                        click={this.switchFontColorHandler}
+                        loginUser={this.loginUser}
+                        checkIfLoggedIn={this.checkIfLoggedIn}
+                        logout={this.logout} />} />
+            <Route
+                exact path='/resources'
+                render={() =>
+                    <Resources
+                        bgColor={this.state.bgColor}
+                        fontColor={this.state.fontColor}
+                        click={this.switchFontColorHandler}
+                        loginUser={this.loginUser}
+                        checkIfLoggedIn={this.checkIfLoggedIn}
+                        logout={this.logout} />} />
+            <Route
+                exact path='/social'
+                render={() =>
+                    <Social
+                        bgColor={this.state.bgColor}
+                        fontColor={this.state.fontColor}
+                        twitterTheme={this.state.twitterTheme}
+                        click={this.switchFontColorHandler}
+                        loginUser={this.loginUser}
+                        checkIfLoggedIn={this.checkIfLoggedIn}
+                        logout={this.logout} />} />
+            <Route
+                exact path='/blogs'
+                render={() =>
+                    <Blogs
+                        bgColor={this.state.bgColor}
+                        fontColor={this.state.fontColor}
+                        twitterTheme={this.state.twitterTheme}
+                        click={this.switchFontColorHandler}
+                        loginUser={this.loginUser}
+                        checkIfLoggedIn={this.checkIfLoggedIn}
+                        logout={this.logout} />} />
       </Layout>
     );
   }

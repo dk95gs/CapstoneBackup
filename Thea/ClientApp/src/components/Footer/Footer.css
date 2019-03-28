@@ -6,6 +6,7 @@
     position: relative;
     margin: auto;
     padding: .5rem;
+    transition:all .5s;
 }
 .footerUnderline {
     background-image: linear-gradient(#bdc3c7, #2c3e50);

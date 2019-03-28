@@ -1,1 +1,8 @@
-﻿
+﻿.errorMessage{
+    color:red;
+    animation:fadeIn 2s;
+}
+@keyframes fadeIn {
+    from {opacity: 0}
+    to {opacity:1}
+}

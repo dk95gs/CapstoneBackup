@@ -65,17 +65,17 @@ namespace Thea.Controllers
                 var result = await _signInManager.PasswordSignInAsync(input.UserName, input.Password, false, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    var claimsData = new[] { new Claim(ClaimTypes.Name, input.UserName) };
-                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("MyKey").Value));
-                    SigningCredentials signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-                    var token = new JwtSecurityToken(
-                        issuer: "my.site.com",
-                        audience: "my.site.com",
-                        expires: DateTime.Now.AddHours(1),
-                        claims: claimsData,
-                        signingCredentials: signInCred
-                        );
-                    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+                    //var claimsData = new[] { new Claim(ClaimTypes.Name, input.UserName) };
+                    //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("MyKey").Value));
+                    //SigningCredentials signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+                    //var token = new JwtSecurityToken(
+                    //    issuer: "my.site.com",
+                    //    audience: "my.site.com",
+                    //    expires: DateTime.Now.AddHours(1),
+                    //    claims: claimsData,
+                    //    signingCredentials: signInCred
+                    //    );
+                    //var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
                     return Ok("success");                    
                 }
                 else

@@ -49,6 +49,7 @@ namespace Thea.Controllers
                 rec.WelcomeBlockSubHeading = hp.WelcomeBlockSubHeading;
                 rec.MissionStatementBlockHeading = hp.MissionStatementBlockHeading;
                 rec.MissionStatementBlockContent = hp.MissionStatementBlockContent;
+                rec.MissionStatementBlockSubHeading = hp.MissionStatementBlockSubHeading;
                 rec.EmbededVideoUrl = hp.EmbededVideoUrl;
                 rec.VideoDescription = hp.VideoDescription;
                 rec.VideoTitle = hp.VideoTitle;
