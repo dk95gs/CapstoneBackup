@@ -12,3 +12,9 @@
 .popup-close:hover {
     color: cornflowerblue;
 }
+.react-confirm-alert-body{
+    font-size:150%;
+}
+.react-confirm-alert-button-group button{
+    font-size:150%;
+}

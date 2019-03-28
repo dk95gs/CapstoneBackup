@@ -1,5 +1,7 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import './HomeEditForm.css';
 
 export class HomeEditForm extends Component {
@@ -36,23 +38,6 @@ export class HomeEditForm extends Component {
         this.resetForm = this.resetForm.bind(this);
 
 
-    }
-    resetForm() {
-        this.setState({
-            id: this.props.id,
-            welcomeHeading: this.props.welcomeHeading,
-            welcomeSubHeading: this.props.welcomeSubHeading,
-            welcomeContentString: this.props.welcomeContent.join("\n"),
-            welcomeContent: this.props.welcomeContent,
-            missionHeading: this.props.missionHeading,
-            missionSubHeading: this.props.missionSubHeading,
-            missionContent: this.props.missionContent,
-            missionContentString: this.props.missionContent.join("\n"),
-            videoHeading: this.props.videoHeading,
-            videoDescription: this.props.videoDescription,
-            embededVideo: this.props.embededVideo
-        });
-        document.getElementById("popup-container").scrollTop = 0;
     }
     handleWelcomeHeadingChange(event) {
         this.setState({
@@ -101,8 +86,24 @@ export class HomeEditForm extends Component {
             embededVideo: event.target.value
         });
     }
-    handleFormSubmit(event) {
-        event.preventDefault();
+    resetForm() {
+        this.setState({
+            id: this.props.id,
+            welcomeHeading: this.props.welcomeHeading,
+            welcomeSubHeading: this.props.welcomeSubHeading,
+            welcomeContentString: this.props.welcomeContent.join("\n"),
+            welcomeContent: this.props.welcomeContent,
+            missionHeading: this.props.missionHeading,
+            missionSubHeading: this.props.missionSubHeading,
+            missionContent: this.props.missionContent,
+            missionContentString: this.props.missionContent.join("\n"),
+            videoHeading: this.props.videoHeading,
+            videoDescription: this.props.videoDescription,
+            embededVideo: this.props.embededVideo
+        });
+        document.getElementById("popup-container").scrollTop = 0;
+    }
+    saveData() {
         let payload = {
             id: this.state.id,
             welcomeBlockHeading: this.state.welcomeHeading,
@@ -117,9 +118,26 @@ export class HomeEditForm extends Component {
         };
         axios.post(window.location.origin + "/api/home", payload).then(resp => {
             this.props.fillState();
+            document.getElementById("popup-container").scrollTop = 0;
             window.location.href = "#root";
         });
-        
+    }
+    handleFormSubmit(event) {
+        event.preventDefault();
+        confirmAlert({
+            title: 'Confirm to Save Changes',
+            message: 'Are you sure you want to save these changes?.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.saveData()
+                },
+                {
+                    label: 'No',
+                    onClick: () => { }
+                }
+            ]
+        });     
     }
     componentDidUpdate() {
         if (this.state.welcomeHeading == '') {
