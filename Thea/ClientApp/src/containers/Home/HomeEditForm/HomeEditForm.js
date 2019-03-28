@@ -9,18 +9,18 @@ export class HomeEditForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id:'',
-            welcomeHeading: props.welcomeHeading,
-            welcomeSubHeading: '',
-            welcomeContentString: '',
-            welcomeContent: [],
-            missionHeading: '',
-            missionSubHeading: '',
-            missionContent: [],
-            missionContentString: '',
-            videoHeading: '',
-            videoDescription: '',
-            embededVideo:''
+            id: this.props.id,
+            welcomeHeading: this.props.welcomeHeading,
+            welcomeSubHeading: this.props.welcomeSubHeading,
+            welcomeContentString: this.props.welcomeContent.join("\n"),
+            welcomeContent: this.props.welcomeContent,
+            missionHeading: this.props.missionHeading,
+            missionSubHeading: this.props.missionSubHeading,
+            missionContent: this.props.missionContent,
+            missionContentString: this.props.missionContent.join("\n"),
+            videoHeading: this.props.videoHeading,
+            videoDescription: this.props.videoDescription,
+            embededVideo: this.props.embededVideo
         }
         this.handleWelcomeHeadingChange = this.handleWelcomeHeadingChange.bind(this);
         this.handleWelcomeSubHeadingChange = this.handleWelcomeSubHeadingChange.bind(this);
@@ -140,22 +140,7 @@ export class HomeEditForm extends Component {
         });     
     }
     componentDidUpdate() {
-        if (this.state.welcomeHeading == '') {
-            this.setState({
-                id:this.props.id,
-                welcomeHeading: this.props.welcomeHeading,
-                welcomeSubHeading: this.props.welcomeSubHeading,
-                welcomeContentString: this.props.welcomeContent.join("\n"),
-                welcomeContent: this.props.welcomeContent,
-                missionHeading: this.props.missionHeading,
-                missionSubHeading: this.props.missionSubHeading,
-                missionContent: this.props.missionContent,
-                missionContentString: this.props.missionContent.join("\n"),
-                videoHeading: this.props.videoHeading,
-                videoDescription: this.props.videoDescription,
-                embededVideo: this.props.embededVideo
-            });
-        }
+       
     }
     render() {
         return (

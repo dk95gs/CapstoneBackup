@@ -54,7 +54,7 @@ export class Home extends Component {
         };
         let editButton = null;
         let editForm = null;
-        if (!this.props.checkIfLoggedIn()) {
+        if (this.props.checkIfLoggedIn()) {
             editButton =
                 <div className="editButtonContainer">
                     <a className="btn btn-secondary" href="#popup"> Edit Page </a>
