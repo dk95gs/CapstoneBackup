@@ -139,9 +139,6 @@ export class HomeEditForm extends Component {
             ]
         });     
     }
-    componentDidUpdate() {
-       
-    }
     render() {
         return (
             <div className="homeEditFormContainer">

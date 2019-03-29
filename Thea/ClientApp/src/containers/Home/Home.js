@@ -9,7 +9,7 @@ import './Home.css';
 export class Home extends Component {
     displayName = Home.name;
     state = {
-        id:"",
+        id:1,
         welcomeHeading: "",
         welcomeSubHeading: "",
         welcomeContent: [],
@@ -27,18 +27,20 @@ export class Home extends Component {
     }
     fillState = () => {
         axios.get(window.location.origin + "/api/home").then(response => {
-            this.setState({
-                id: response.data.id,
-                welcomeHeading: response.data.welcomeBlockHeading,
-                welcomeSubHeading: response.data.welcomeBlockSubHeading,
-                welcomeContent: JSON.parse(response.data.welcomeBlockContent),
-                missionHeading: response.data.missionStatementBlockHeading,
-                missionSubHeading: response.data.missionStatementBlockSubHeading,
-                missionContent: JSON.parse(response.data.missionStatementBlockContent),
-                embededVideo: response.data.embededVideoUrl,
-                videoTitle: response.data.videoTitle,
-                videoDescription: response.data.videoDescription
-            });
+            if (response.data !== '') {
+                this.setState({
+                    id: response.data.id,
+                    welcomeHeading: response.data.welcomeBlockHeading,
+                    welcomeSubHeading: response.data.welcomeBlockSubHeading,
+                    welcomeContent: JSON.parse(response.data.welcomeBlockContent),
+                    missionHeading: response.data.missionStatementBlockHeading,
+                    missionSubHeading: response.data.missionStatementBlockSubHeading,
+                    missionContent: JSON.parse(response.data.missionStatementBlockContent),
+                    embededVideo: response.data.embededVideoUrl,
+                    videoTitle: response.data.videoTitle,
+                    videoDescription: response.data.videoDescription
+                });
+            }
         });
     }
     componentDidMount() {

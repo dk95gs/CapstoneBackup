@@ -38,7 +38,19 @@ namespace Thea.Controllers
 
             if (rec == null)
             {
-                _db.Add(hp);
+                HomePage home = new HomePage
+                {
+                    WelcomeBlockHeading = hp.WelcomeBlockHeading,
+                    WelcomeBlockContent = hp.WelcomeBlockContent,
+                    WelcomeBlockSubHeading = hp.WelcomeBlockSubHeading,
+                    MissionStatementBlockHeading = hp.MissionStatementBlockHeading,
+                    MissionStatementBlockContent = hp.MissionStatementBlockContent,
+                    MissionStatementBlockSubHeading = hp.MissionStatementBlockSubHeading,
+                    EmbededVideoUrl = hp.EmbededVideoUrl,
+                    VideoDescription = hp.VideoDescription,
+                    VideoTitle = hp.VideoTitle
+                };
+                _db.Add(home);
             }
             else
             {
