@@ -7,7 +7,7 @@ Navigate to the ClientApp directory: `cd Thea/Thea/ClientApp`
 
 Run `npm install`
 
-Open the project folder and double click the .sln file.
+Open the project folder and double click the .sln file to open it up in Visual Studio
 
 Open the Package Manager Console by going to: `Tools` -> `NuGet Package Manager` -> `Package Manager Console`
 
@@ -21,5 +21,7 @@ When you run the application a user will get created if there is no user in the 
 
 These are the login credentials(password is case-sensitive):
 
-Username: libby
-Password: Password1!
+**Username:** libby 
+
+
+**Password:** Password1!
