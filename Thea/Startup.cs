@@ -1,3 +1,4 @@
+using DKPortfolio.Utility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +23,7 @@ namespace Thea
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the React files will be served from this directory
@@ -33,8 +35,11 @@ namespace Thea
             services.AddDbContext<AuthContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<AppUser>()
-                .AddEntityFrameworkStores<AuthContext>();
+            services.AddIdentity<AppUser, IdentityRole>()
+            .AddRoleManager<RoleManager<IdentityRole>>()
+            .AddDefaultUI()
+            .AddDefaultTokenProviders()
+            .AddEntityFrameworkStores<AuthContext>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -44,7 +49,7 @@ namespace Thea
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<AppUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -77,6 +82,8 @@ namespace Thea
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            AppDbInit.SeedUsers(userManager);
         }
     }
 }

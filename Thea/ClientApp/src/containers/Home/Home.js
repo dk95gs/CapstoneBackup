@@ -59,10 +59,10 @@ export class Home extends Component {
         if (this.props.checkIfLoggedIn()) {
             editButton =
                 <div className="editButtonContainer">
-                    <a className="btn btn-secondary" href="#popup"> Edit Page </a>
+                    <a className="btn btn-secondary" href="#homeEdit"> Edit Page </a>
                 </div>;
             editForm =
-                <Popup pageName="Home Page" style={styles} >
+                <Popup pageName="Home Page" style={styles} popupId="homeEdit" >
                 <HomeEditForm
                     id={this.state.id}
                     welcomeHeading={this.state.welcomeHeading}

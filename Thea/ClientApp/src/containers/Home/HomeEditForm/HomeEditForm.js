@@ -141,7 +141,7 @@ export class HomeEditForm extends Component {
     }
     render() {
         return (
-            <div className="homeEditFormContainer">
+            <div>
                 <a href="#root" onClick={this.resetForm} className="popup-close">&times;</a>
                 <form>
                     <div className="form-group">
