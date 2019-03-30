@@ -62,7 +62,8 @@ export default class App extends Component {
             userName: userName,
             password: password
         }
-        return axios.post(window.location.origin + "/api/appuser/login", payload).then(() => {
+        return axios.post(window.location.origin + "/api/appuser/login", payload).then((resp) => {
+            sessionStorage.setItem("token", resp.data.token);
             this.setState({
                 isLoggedIn: true
             });
@@ -76,6 +77,7 @@ export default class App extends Component {
             this.setState({
                 isLoggedIn: false
             });
+            sessionStorage.removeItem("token");
         });
     }
   render() {

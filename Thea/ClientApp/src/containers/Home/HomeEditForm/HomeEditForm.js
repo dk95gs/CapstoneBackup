@@ -8,16 +8,24 @@ export class HomeEditForm extends Component {
     displayName = HomeEditForm.name;
     constructor(props) {
         super(props);
+        let welcomeContentString = '';
+        let missionContentString = '';
+        if (this.props.welcomeContent !== null) {
+            welcomeContentString = this.props.welcomeContent.join("\n");
+        }
+        if (this.props.welcomeContent !== null) {
+            missionContentString = this.props.missionContent.join("\n");
+        }
         this.state = {
             id: this.props.id,
             welcomeHeading: this.props.welcomeHeading,
             welcomeSubHeading: this.props.welcomeSubHeading,
-            welcomeContentString: this.props.welcomeContent.join("\n"),
+            welcomeContentString: welcomeContentString,
             welcomeContent: this.props.welcomeContent,
             missionHeading: this.props.missionHeading,
             missionSubHeading: this.props.missionSubHeading,
             missionContent: this.props.missionContent,
-            missionContentString: this.props.missionContent.join("\n"),
+            missionContentString: missionContentString,
             videoHeading: this.props.videoHeading,
             videoDescription: this.props.videoDescription,
             embededVideo: this.props.embededVideo
@@ -87,16 +95,25 @@ export class HomeEditForm extends Component {
         });
     }
     resetForm() {
+        let welcomeContentString = '';
+        let missionContentString = '';
+        if (this.props.welcomeContent !== null) {
+            welcomeContentString = this.props.welcomeContent.join("\n");
+        }
+        if (this.props.welcomeContent !== null) {
+            missionContentString = this.props.missionContent.join("\n");
+        }
+
         this.setState({
             id: this.props.id,
             welcomeHeading: this.props.welcomeHeading,
             welcomeSubHeading: this.props.welcomeSubHeading,
-            welcomeContentString: this.props.welcomeContent.join("\n"),
+            welcomeContentString: welcomeContentString,
             welcomeContent: this.props.welcomeContent,
             missionHeading: this.props.missionHeading,
             missionSubHeading: this.props.missionSubHeading,
             missionContent: this.props.missionContent,
-            missionContentString: this.props.missionContent.join("\n"),
+            missionContentString: missionContentString,
             videoHeading: this.props.videoHeading,
             videoDescription: this.props.videoDescription,
             embededVideo: this.props.embededVideo
@@ -116,7 +133,12 @@ export class HomeEditForm extends Component {
             videoDescription: this.state.videoDescription,
             videoTitle: this.state.videoHeading
         };
-        axios.post(window.location.origin + "/api/home", payload).then(resp => {
+        let headers = {
+            headers: {
+                Authorization: "bearer " + sessionStorage.getItem("token")
+            }
+        };
+        axios.post(window.location.origin + "/api/home", payload, headers).then(resp => {
             this.props.fillState();
             document.getElementById("popup-container").scrollTop = 0;
             window.location.href = "#root";

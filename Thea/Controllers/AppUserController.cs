@@ -33,61 +33,33 @@ namespace Thea.Controllers
             _signInManager = signInManager;
             _config = config;
         }
-
-        [HttpPost]
-        [Route("Register")]
-        public async Task<Object> RegisterUser(UserRegistrationInputModel input)
-        {
-            var appUser = new AppUser()
-            {
-                UserName = input.UserName,
-                Email = input.Email,
-                FullName = input.FullName
-            };
-
-            try
-            {
-                var result = await _userManager.CreateAsync(appUser, input.Password);
-                return Ok(result);
-                
-            }
-            catch (Exception ex)
-            {
-                throw ex.InnerException;
-            }
-        }
         [HttpPost]
         [Route("Login")]
-        public async Task<Object> Login(LoginInput input)
+        public async Task<IActionResult> Login(LoginInput input)
         {
-            try
+            var user = await _userManager.FindByNameAsync(input.UserName);
+            if (user != null && await _userManager.CheckPasswordAsync(user, input.Password))
             {
-                var result = await _signInManager.PasswordSignInAsync(input.UserName, input.Password, false, lockoutOnFailure: true);
-                if (result.Succeeded)
+                var claims = new[]
                 {
-                    //var claimsData = new[] { new Claim(ClaimTypes.Name, input.UserName) };
-                    //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("MyKey").Value));
-                    //SigningCredentials signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-                    //var token = new JwtSecurityToken(
-                    //    issuer: "my.site.com",
-                    //    audience: "my.site.com",
-                    //    expires: DateTime.Now.AddHours(1),
-                    //    claims: claimsData,
-                    //    signingCredentials: signInCred
-                    //    );
-                    //var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                    return Ok("success");                    
-                }
-                else
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                }; 
+                var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("wsX3nxjFzwQRN4zfJ6fmpz0dkX00S5zp"));
+                var token = new JwtSecurityToken(
+                    issuer: "https://www.checkeredeye.com/",
+                    audience: "https://www.checkeredeye.com/",
+                    expires: DateTime.UtcNow.AddHours(2),
+                    claims: claims,
+                    signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+                    );
+                return Ok(new
                 {
-                    return NotFound("Failed");
-                }
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    expiration = token.ValidTo
+                });
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            return Unauthorized();
         }
         [HttpPost]
         [Route("Logout")]

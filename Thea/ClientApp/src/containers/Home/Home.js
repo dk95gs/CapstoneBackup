@@ -28,14 +28,22 @@ export class Home extends Component {
     fillState = () => {
         axios.get(window.location.origin + "/api/home").then(response => {
             if (response.data !== '') {
+                let parsedWelcomeContent = null;
+                let parsedMissionContent = null;
+                if (response.data.welcomeBlockContent !== '') {
+                    parsedWelcomeContent = JSON.parse(response.data.welcomeBlockContent);
+                }
+                if (response.data.missionStatementBlockContent !== '') {
+                    parsedMissionContent = JSON.parse(response.data.missionStatementBlockContent);
+                }
                 this.setState({
                     id: response.data.id,
                     welcomeHeading: response.data.welcomeBlockHeading,
                     welcomeSubHeading: response.data.welcomeBlockSubHeading,
-                    welcomeContent: JSON.parse(response.data.welcomeBlockContent),
+                    welcomeContent: parsedWelcomeContent,
                     missionHeading: response.data.missionStatementBlockHeading,
                     missionSubHeading: response.data.missionStatementBlockSubHeading,
-                    missionContent: JSON.parse(response.data.missionStatementBlockContent),
+                    missionContent: parsedMissionContent,
                     embededVideo: response.data.embededVideoUrl,
                     videoTitle: response.data.videoTitle,
                     videoDescription: response.data.videoDescription
