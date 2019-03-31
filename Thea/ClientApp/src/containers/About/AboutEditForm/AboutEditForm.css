@@ -18,3 +18,9 @@
 .react-confirm-alert-button-group button{
     font-size:150%;
 }
+.mycard{
+    padding:1rem;
+    margin:1rem;
+    border: solid 2px black;
+    border-radius: 20px;
+}

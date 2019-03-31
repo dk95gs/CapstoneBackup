@@ -5,21 +5,27 @@ import { HomeEditForm } from './HomeEditForm/HomeEditForm';
 import Video from '../../components/Video/Video';
 import axios from 'axios';
 import './Home.css';
+import { clearUrlHash } from '../../Helper';
 
 export class Home extends Component {
     displayName = Home.name;
-    state = {
-        id:1,
-        welcomeHeading: "",
-        welcomeSubHeading: "",
-        welcomeContent: [],
-        missionHeading: "",
-        missionSubHeading: "",
-        missionContent: [],
-        embededVideo: "",
-        videoTitle: "",
-        videoDescription: ""
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: 1,
+            welcomeHeading: "",
+            welcomeSubHeading: "",
+            welcomeContent: [],
+            missionHeading: "",
+            missionSubHeading: "",
+            missionContent: [],
+            embededVideo: "",
+            videoTitle: "",
+            videoDescription: ""
+        };
+        clearUrlHash();
+    }
+    
     logout = () => {
         axios.post("http://localhost:63650/api/appuser/logout").then(response => {
             console.log(response);
@@ -67,23 +73,11 @@ export class Home extends Component {
         if (this.props.checkIfLoggedIn()) {
             editButton =
                 <div className="editButtonContainer">
-                    <a className="btn btn-secondary" href="#homeEdit"> Edit Page </a>
+                <a className="btn btn-secondary" href="#homeEdit"> Edit Page </a>
                 </div>;
             editForm =
                 <Popup pageName="Home Page" style={styles} popupId="homeEdit" >
-                <HomeEditForm
-                    id={this.state.id}
-                    welcomeHeading={this.state.welcomeHeading}
-                    welcomeSubHeading={this.state.welcomeSubHeading}
-                    welcomeContent={this.state.welcomeContent}
-                    missionHeading={this.state.missionHeading}
-                    missionSubHeading={this.state.missionSubHeading}
-                    missionContent={this.state.missionContent}
-                    videoHeading={this.state.videoTitle}
-                    videoDescription={this.state.videoDescription}
-                    embededVideo={this.state.embededVideo}
-                    fillState={this.fillState}
-                    />
+                    <HomeEditForm fillState={this.fillState} />
                 </Popup>;
         }
         

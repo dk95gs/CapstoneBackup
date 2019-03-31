@@ -32,8 +32,12 @@ const GenericBlock = (props) => {
                     lstParaFAQContent =
                         <ul>
                             {
-                                content.map((p, i) => {
+                            content.map((p, i) => {
+                                if (p !== '') {
                                     return <li key={i}>{p}</li>
+                                } else {
+                                    return <p></p>
+                                }
                                 })
                             }
                         </ul>

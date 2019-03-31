@@ -30,9 +30,24 @@ namespace Thea.Controllers
         [HttpPost]
         public async Task<object> Update(AboutPage ap)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var rec = _db.AboutPage.Find(ap.Id);
+
             if (rec == null)
             {
+                AboutPage tempAbout = new AboutPage
+                {
+                    AboutBlockHeading = ap.AboutBlockHeading,
+                    AboutBlockContent = ap.AboutBlockContent,
+                    AchnowledgementsBlockTitle = ap.AchnowledgementsBlockTitle,
+                    AchnowledgementsBlockDescription = ap.AchnowledgementsBlockDescription,
+                    AchnowledgementsBlockList = ap.AchnowledgementsBlockList,
+                    FAQBlockQA = ap.FAQBlockQA
+            };
                 _db.Add(ap);
             }
             else
