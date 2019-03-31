@@ -56,6 +56,23 @@ export class AboutEditForm extends Component {
         });
 
     }
+    qaDeleteConfirmation = (index, event) => {
+        event.preventDefault();
+        confirmAlert({
+            title: 'Confirm Delete',
+            message: 'Are you sure you want to delete this Q & A?.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.deleteQA(index, event)
+                },
+                {
+                    label: 'No',
+                    onClick: () => { }
+                }
+            ]
+        });
+    }
     fillState() {
         axios.get(window.location.origin + "/api/About").then(response => {
             const data = response.data;
@@ -98,23 +115,7 @@ export class AboutEditForm extends Component {
         });
         
     }
-    qaDeleteConfirmation = (index, event) => {
-        event.preventDefault();
-        confirmAlert({
-            title: 'Confirm Delete',
-            message: 'Are you sure you want to delete this Q & A?.',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => this.deleteQA(index, event)
-                },
-                {
-                    label: 'No',
-                    onClick: () => { }
-                }
-            ]
-        });   
-    }
+
     handleFormSubmit(event) {
         event.preventDefault();
         confirmAlert({
@@ -187,7 +188,6 @@ export class AboutEditForm extends Component {
                 faqBlockQA: tempFaq
             });
         }
-        console.log(this.state.faqBlockQA);
     }
     componentDidMount() {
         this.fillState();
