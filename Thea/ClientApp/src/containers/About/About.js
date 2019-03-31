@@ -55,7 +55,7 @@ export class About extends Component {
                 </div>;
             editForm =
                 <Popup pageName="About Page" style={styles} popupId="aboutEdit" >
-                <AboutEditForm />
+                    <AboutEditForm />
                 </Popup>;
         }
         return (

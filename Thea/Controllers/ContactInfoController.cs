@@ -25,14 +25,29 @@ namespace Thea.Controllers
 
             return rec;
         }
-        [HttpPut]
+        [HttpPost]
         public async Task<object> Update(ContactInfo ci)
         {
             var rec = _db.ContactInfo.FirstOrDefault();
             string message;
             if(rec == null)
             {
-                _db.Add(ci);
+                ContactInfo tempCI = new ContactInfo
+                {
+                    Id = ci.Id,
+                    StreetName = ci.StreetName,
+                    City = ci.City,
+                    Province = ci.Province,
+                    Country = ci.Country,
+                    PostalCode = ci.PostalCode,
+                    LocalNumber = ci.LocalNumber,
+                    TollFreeNumber = ci.TollFreeNumber,
+                    Email = ci.Email,
+                    FooterMessage = ci.FooterMessage,
+                    HeaderHeading = ci.HeaderHeading,
+                    HeaderSubHeading = ci.HeaderSubHeading
+                };
+                _db.Add(tempCI);
                 message = "Added New Rec";
             } else
             {
