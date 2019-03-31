@@ -72,7 +72,12 @@ export class HeaderFooterEditForm extends Component {
             headerHeading: this.state.headerHeading,
             headerSubHeading: this.state.headerSubHeading
         };
-        axios.post(window.location.origin + "/api/contactinfo", payload).then(resp => {
+        let headers = {
+            headers: {
+                Authorization: "bearer " + sessionStorage.getItem("token")
+            }
+        };
+        axios.post(window.location.origin + "/api/contactinfo", payload, headers).then(resp => {
             this.props.fillState();
             document.getElementById("popup-container").scrollTop = 0;
             window.location.hash = "#root";
