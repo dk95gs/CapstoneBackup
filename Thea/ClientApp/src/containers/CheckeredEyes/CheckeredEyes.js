@@ -70,9 +70,9 @@ export class CheckeredEyes extends Component {
                 <input type="button" onClick={this.props.click} className="btn btn-warning btnSwitch" value="Switch Colors" />
                 <div className="myContainerHeader" id="myContainerHeader" style={headerStyles}>
                     <h1>Checkered Eyes</h1>
-                    {editButton}
-                    {editForm}
+                    {editButton}  
                 </div>
+                {editForm}
                 <GenericBlock
                     heading={this.state.SymbolUseBlockTitle}
                     content={this.state.SymbolUseBlockDescription}

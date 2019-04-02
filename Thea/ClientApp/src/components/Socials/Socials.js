@@ -5,7 +5,7 @@ const Socials = (props) => {
         <div className="socialContainer">
             {
                 props.socials.map((s, index) => {
-                    return <a key={index} href={s.hrefUrl} target="_blank"> <img src={window.location.origin + s.imageURL} alt={index} className="socialImg" /> </a>
+                    return <a key={index} href={s.hrefUrl} target="_blank"> <img src={window.location.origin + "\\" + s.imageURL} alt={index} className="socialImg" /> </a>
                 })
             }
         </div>

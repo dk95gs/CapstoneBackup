@@ -2,13 +2,16 @@ using DKPortfolio.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using System.IO;
 using System.Text;
 using Thea.Models;
 
@@ -83,7 +86,11 @@ namespace Thea
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
 
             app.UseMvc(routes =>
             {
@@ -102,7 +109,7 @@ namespace Thea
                 }
             });
 
-            AppDbInit.SeedUsers(userManager);
+            //AppDbInit.SeedUsers(userManager);
             
         }
     }
