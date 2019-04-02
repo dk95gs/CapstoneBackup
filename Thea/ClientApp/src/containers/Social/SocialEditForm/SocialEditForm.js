@@ -58,7 +58,12 @@ export class SocialEditForm extends Component {
             fd.append('file', this.state.file, this.state.file.name);
         }
         fd.append('hrefUrl', this.state.hrefUrl);
-        axios.post(window.location.origin + "/api/socialmedias", fd).then(resp => {
+        let headers = {
+            headers: {
+                Authorization: "bearer " + sessionStorage.getItem("token")
+            }
+        };
+        axios.post(window.location.origin + "/api/socialmedias", fd, headers).then(resp => {
             this.props.fillState();
             this.fillState();
             document.getElementById("popup-container").scrollTop = 0;
@@ -78,8 +83,12 @@ export class SocialEditForm extends Component {
         fd.append('hrefUrl', this.state.hrefUrl);
         fd.append('id', this.state.id);
         fd.append('imageURL', this.state.imageUrl);
-
-        axios.put(window.location.origin + "/api/socialmedias/" + this.state.id, fd).then(resp => {
+        let headers = {
+            headers: {
+                Authorization: "bearer " + sessionStorage.getItem("token")
+            }
+        };
+        axios.put(window.location.origin + "/api/socialmedias/" + this.state.id, fd, headers).then(resp => {
             document.getElementById("popup-container").scrollTop = 0;
             this.setState({
                 showInputs: false,
@@ -92,7 +101,12 @@ export class SocialEditForm extends Component {
         })
     }
     deleteData(id) {
-        axios.delete(window.location.origin + "/api/socialmedias/" + id).then(resp => {
+        let headers = {
+            headers: {
+                Authorization: "bearer " + sessionStorage.getItem("token")
+            }
+        };
+        axios.delete(window.location.origin + "/api/socialmedias/" + id, headers).then(resp => {
             console.log(resp);
             this.props.fillState();
             this.fillState();

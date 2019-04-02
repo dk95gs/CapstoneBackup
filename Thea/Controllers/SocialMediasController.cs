@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,7 @@ namespace Thea.Controllers
 
         // PUT: api/SocialMedias/5
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PutSocialMedia([FromRoute] int id, [FromForm] SocialMedia socialMedia)
         {
 
@@ -92,6 +95,7 @@ namespace Thea.Controllers
 
         // POST: api/SocialMedias
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PostSocialMedia([FromForm] SocialMedia socialMedia)
         {
             try
@@ -125,6 +129,7 @@ namespace Thea.Controllers
 
         // DELETE: api/SocialMedias/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteSocialMedia([FromRoute] int id)
         {
             if (!ModelState.IsValid)
