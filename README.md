@@ -1,4 +1,6 @@
-# Thea 
+Site has been deployed here: [http://dk95gs-001-site2.itempurl.com](http://dk95gs-001-site2.itempurl.com)
+# Thea
+
 In order to start the project you must have Visual Studio 2017 
 
 Clone the repo
