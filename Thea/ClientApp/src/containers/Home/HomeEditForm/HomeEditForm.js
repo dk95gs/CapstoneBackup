@@ -120,8 +120,7 @@ export class HomeEditForm extends Component {
         });
     }
     resetForm() {
-        this.fillState();
-        document.getElementById("popup-container").scrollTop = 0;
+        this.fillState();       
     }
     saveData() {
         let payload = {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,18 +32,41 @@ namespace Thea.Controllers
 
         // PUT: api/Printables/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPrintables([FromRoute] int id, [FromBody] Printables printables)
+        public async Task<IActionResult> PutPrintables([FromRoute] int id, [FromForm] Printables printables)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             if (id != printables.Id)
             {
                 return BadRequest();
             }
+            if (Request.Form.Files.Count > 0)
+            {
+                try
+                {
+                    var uploads = Path.Combine(Directory.GetCurrentDirectory(), printables.SrcURL);
 
+                    if (System.IO.File.Exists(uploads))
+                    {
+                        System.IO.File.Delete(uploads);
+                    }
+                }
+                catch (Exception e)
+                {
+                    //file didnt exist
+                }
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine("Resources", "Printables");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                Random rand = new Random();
+                var fileName = rand.Next(1, 100000).ToString() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                printables.SrcURL = dbPath;
+            }
             _context.Entry(printables).State = EntityState.Modified;
 
             try
@@ -65,16 +90,34 @@ namespace Thea.Controllers
 
         // POST: api/Printables
         [HttpPost]
-        public async Task<IActionResult> PostPrintables([FromBody] Printables printables)
+        public async Task<IActionResult> PostPrintables([FromForm] Printables printables)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (Request.Form.Files.Count > 0)
+                {
+                    var file = Request.Form.Files[0];
+                    var folderName = Path.Combine("Resources", "Printables");
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    Random rand = new Random();
+                    var fileName = rand.Next(1, 100000).ToString() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    printables.SrcURL = dbPath;
+
+                }
+                _context.Printables.Add(printables);
+                await _context.SaveChangesAsync();
             }
-
-            _context.Printables.Add(printables);
-            await _context.SaveChangesAsync();
-
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
             return CreatedAtAction("GetPrintables", new { id = printables.Id }, printables);
         }
 
@@ -95,6 +138,20 @@ namespace Thea.Controllers
 
             _context.Printables.Remove(printables);
             await _context.SaveChangesAsync();
+
+            try
+            {
+                var uploads = Path.Combine(Directory.GetCurrentDirectory(), printables.SrcURL);
+
+                if (System.IO.File.Exists(uploads))
+                {
+                    System.IO.File.Delete(uploads);
+                }
+            }
+            catch (Exception e)
+            {
+                //file didnt exist
+            }
 
             return Ok(printables);
         }

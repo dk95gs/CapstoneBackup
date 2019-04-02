@@ -3,73 +3,100 @@ import axios from 'axios';
 import { confirmAlert } from 'react-confirm-alert';
 import { Link } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import './SocialEditForm.css';
+import './DownloadsEditForm.css';
 
-export class SocialEditForm extends Component {
-    displayName = SocialEditForm.name;
+export class DownloadsEditForm extends Component {
+    displayName = DownloadsEditForm.name;
     constructor(props) {
         super(props);
         this.state = {
-            id: 0,
-            hrefUrl: '',
-            imageUrl: '',
-            socials: [],
-            file: null,
+            downloadList: [],
+            title: '',
+            srcURL: '',
             showInputs: false,
-            crudType: ''
+            crudType: '',
+            file: null
+
         }
-        this.handleAddLinkSubmit = this.handleAddLinkSubmit.bind(this);
-        this.resetForm = this.resetForm.bind(this);
-        this.handleFileSelect = this.handleFileSelect.bind(this);
-        this.handleHrefUrlChange = this.handleHrefUrlChange.bind(this);
-        this.handleDeleteLinkSubmit = this.handleDeleteLinkSubmit.bind(this);
         this.handleEditLinkSubmit = this.handleEditLinkSubmit.bind(this);
+        this.resetForm = this.resetForm.bind(this);
 
-
-    }
-    beginEdit = (index) => {
-        this.setState({
-            id: this.state.socials[index].id,
-            hrefUrl: this.state.socials[index].hrefUrl,
-            imageUrl: this.state.socials[index].imageURL,
-            showInputs: true,
-            crudType: "Edit"
-        });     
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleFileSelect = this.handleFileSelect.bind(this);
+        this.handleAddLinkSubmit = this.handleAddLinkSubmit.bind(this);
+        this.handleDeleteLinkSubmit = this.handleDeleteLinkSubmit.bind(this);
     }
     beginAdd = () => {
         this.setState({
-            hrefUrl: '',
-            imageUrl: '',
+            title: '',
+            srcURL: '',
             showInputs: true,
             crudType: "Add"
         });
     }
+    beginEdit = (index) => {
+        this.setState({
+            id: this.state.downloadList[index].id,
+            title: this.state.downloadList[index].title,
+            srcURL: this.state.downloadList[index].srcURL,
+            showInputs: true,
+            crudType: "Edit"
+        });
+    }
     cancelAddEdit = () => {
         this.setState({
-            hrefUrl: '',
-            imageUrl: '',
+            id: 0,
+            title: '',
+            srcURL: '',
             showInputs: false,
             crudType: ""
         })
+    }
+    fillState() {
+        axios.get(window.location.origin + "/api/downloadables").then(response => {
+            this.setState({
+                downloadList: response.data
+            });
+        });
+    }
+    resetForm() {
+        this.fillState();
+        this.setState({
+            title: '',
+            file: null,
+            showInputs: false,
+            crudType: ''
+        });
+        document.getElementById("popup-container").scrollTop = 0;
+        window.location.hash = "#root";
+    }
+    saveData() {
+        let payload = {
+        };
+        axios.post(window.location.origin + "/api/about", payload).then(resp => {
+            this.props.fillState();
+            document.getElementById("popup-container").scrollTop = 0;
+            window.location.hash = "#root";
+        });   
     }
     addData() {
         let fd = new FormData();
         if (this.state.file !== null) {
             fd.append('file', this.state.file, this.state.file.name);
         }
-        fd.append('hrefUrl', this.state.hrefUrl);
+        fd.append('title', this.state.title);
         let headers = {
             headers: {
                 Authorization: "bearer " + sessionStorage.getItem("token")
             }
         };
-        axios.post(window.location.origin + "/api/socialmedias", fd, headers).then(resp => {
+        axios.post(window.location.origin + "/api/downloadables", fd, headers).then(resp => {
             this.props.fillState();
             this.fillState();
             document.getElementById("popup-container").scrollTop = 0;
             this.setState({
                 showInputs: false,
-                hrefUrl: '',
+                title: '',
                 file: null,
                 crudType: ''
             });
@@ -80,25 +107,26 @@ export class SocialEditForm extends Component {
         if (this.state.file !== null) {
             fd.append('file', this.state.file, this.state.file.name);
         }
-        fd.append('hrefUrl', this.state.hrefUrl);
+        fd.append('title', this.state.title);
+        fd.append('srcURL', this.state.srcURL);
         fd.append('id', this.state.id);
-        fd.append('imageURL', this.state.imageUrl);
         let headers = {
             headers: {
                 Authorization: "bearer " + sessionStorage.getItem("token")
             }
         };
-        axios.put(window.location.origin + "/api/socialmedias/" + this.state.id, fd, headers).then(resp => {
+        axios.put(window.location.origin + "/api/downloadables/" + this.state.id, fd, headers).then(resp => {
             document.getElementById("popup-container").scrollTop = 0;
             this.setState({
                 showInputs: false,
-                hrefUrl: '',
+                title: '',
                 file: null,
                 crudType: ''
             });
             this.props.fillState();
             this.fillState();
         });
+
     }
     deleteData(id) {
         let headers = {
@@ -106,20 +134,20 @@ export class SocialEditForm extends Component {
                 Authorization: "bearer " + sessionStorage.getItem("token")
             }
         };
-        axios.delete(window.location.origin + "/api/socialmedias/" + id, headers).then(resp => {
+        axios.delete(window.location.origin + "/api/downloadables/" + id, headers).then(resp => {
             this.props.fillState();
             this.fillState();
 
         });
     }
-    handleHrefUrlChange(event) {
+    handleTitleChange(event) {
         this.setState({
-            hrefUrl: event.target.value
+            title: event.target.value
         });
     }
     handleFileSelect(event) {
         this.setState({
-            file:event.target.files[0]
+            file: event.target.files[0]
         });
     }
     handleAddLinkSubmit(event) {
@@ -137,7 +165,7 @@ export class SocialEditForm extends Component {
                     onClick: () => { }
                 }
             ]
-        });     
+        });
     }
     handleEditLinkSubmit(event) {
         event.preventDefault();
@@ -173,18 +201,6 @@ export class SocialEditForm extends Component {
             ]
         });
     }
-    fillState() {
-        axios.get(window.location.origin + '/api/socialmedias').then(response => {
-            this.setState({
-                socials: response.data
-            });
-        })
-    }
-    resetForm() {
-        this.fillState();
-        document.getElementById("popup-container").scrollTop = 0;
-        window.location.hash = "#root";
-    }
     componentDidMount() {
         this.fillState();
     }
@@ -192,11 +208,10 @@ export class SocialEditForm extends Component {
         let tableRows = [];
         let inputFields = null;
         let buttons = null;
-        this.state.socials.map((tr, index) => {
+        this.state.downloadList.map((tr, index) => {
             tableRows.push(
                 <tr key={index}>
-                    <td>{tr.hrefUrl}</td>
-                    <td> <img className="tableCellImg" src={window.location.origin + "\\" + tr.imageURL} /> </td>
+                    <td>{tr.title}</td>
                     <td><input type="button" className="btn btn-warning" onClick={() => { this.beginEdit(index) }} value="Edit" /></td>
                     <td><input type="button" className="btn btn-danger" onClick={(e) => { this.handleDeleteLinkSubmit(tr.id, e) }} value="Delete" /></td>
                 </tr>
@@ -204,13 +219,13 @@ export class SocialEditForm extends Component {
         });
         if (this.state.showInputs) {
             inputFields =
-            <div> 
+            <div>
                 <div className="form-group">
-                    <label> Link To Your Social Media Page </label>
-                    <input value={this.state.hrefUrl} onChange={this.handleHrefUrlChange} className="form-control" />
+                    <label> Display Text </label>
+                    <input value={this.state.title} onChange={this.handleTitleChange} className="form-control" />
                 </div>
                 <div className="form-group">
-                    <label> Upload a New Picture or Leave Blank to Use Original</label>
+                    <label> Upload a PDF or word document</label>
                     <input onChange={this.handleFileSelect} type="file" className="form-control" className="form-control" />
                 </div>
             </div>
@@ -218,47 +233,46 @@ export class SocialEditForm extends Component {
         if (this.state.crudType === "Edit") {
             buttons =
                 <div className="form-group">
-                <input type="button" className="btn btn-primary" onClick={this.handleEditLinkSubmit} value="Save Changes" />
-                <input type="button" className="btn btn-danger" onClick={this.cancelAddEdit} value="Cancel" />
-            </div>
+                    <input type="button" className="btn btn-primary" onClick={this.handleEditLinkSubmit} value="Save Changes" />
+                    <input type="button" className="btn btn-danger" onClick={this.cancelAddEdit} value="Cancel" />
+                </div>
         }
         if (this.state.crudType === "Add") {
             buttons =
                 <div className="form-group">
-                <input type="button" className="btn btn-primary" onClick={this.handleAddLinkSubmit} value="Save Changes" />
+                    <input type="button" className="btn btn-primary" onClick={this.handleAddLinkSubmit} value="Save Changes" />
                     <input type="button" className="btn btn-danger" onClick={this.cancelAddEdit} value="Cancel" />
                 </div>
         }
         return (
             <div>
                 <Link
-                    to='/social#root'
+                    to='/resources#root'
                     onClick={this.resetForm}
                     className="popup-close">&times;</Link>
-
                 <input type="button" className="btn btn-primary" onClick={this.beginAdd} value="Add New" />
                 <table className="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Url</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tableRows}
-                        </tbody>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {tableRows}
+                    </tbody>
                 </table>
                 <form>
                     <h2>  {this.state.crudType} </h2>
                     {inputFields}
                     {buttons}
                     <Link
-                        to='/social#root'
+                        to='/resources#root'
                         onClick={this.resetForm}
                         className="btn btn-secondary"
                         style={{ marginLeft: "1rem" }}>
-                        Done Making Changes
+                        Finish Making Changes
                     </Link>
                 </form>
             </div>
