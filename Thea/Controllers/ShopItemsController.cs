@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,18 +53,43 @@ namespace Thea.Controllers
 
         // PUT: api/ShopItems/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutShopItems([FromRoute] int id, [FromBody] ShopItems shopItems)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> PutShopItems([FromRoute] int id, [FromForm] ShopItems shopItems)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
             if (id != shopItems.Id)
             {
                 return BadRequest();
             }
+            if (Request.Form.Files.Count > 0)
+            {
+                try
+                {
+                    var uploads = Path.Combine(Directory.GetCurrentDirectory(), shopItems.ImageURL);
 
+                    if (System.IO.File.Exists(uploads))
+                    {
+                        System.IO.File.Delete(uploads);
+                    }
+                }
+                catch (Exception e)
+                {
+                    //file didnt exist
+                }
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                Random rand = new Random();
+                var fileName = rand.Next(1, 100000).ToString() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                shopItems.ImageURL = dbPath;
+            }
             _context.Entry(shopItems).State = EntityState.Modified;
 
             try
@@ -84,21 +113,43 @@ namespace Thea.Controllers
 
         // POST: api/ShopItems
         [HttpPost]
-        public async Task<IActionResult> PostShopItems([FromBody] ShopItems shopItems)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> PostShopItems([FromForm] ShopItems shopItems)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                if (Request.Form.Files.Count > 0)
+                {
+                    var file = Request.Form.Files[0];
+                    var folderName = Path.Combine("Resources", "Images");
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    Random rand = new Random();
+                    var fileName = rand.Next(1, 100000).ToString() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
 
-            _context.ShopItems.Add(shopItems);
-            await _context.SaveChangesAsync();
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    shopItems.ImageURL = dbPath;
+
+                }
+
+                _context.ShopItems.Add(shopItems);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, "Internal server error");
+            }
 
             return CreatedAtAction("GetShopItems", new { id = shopItems.Id }, shopItems);
         }
 
         // DELETE: api/ShopItems/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteShopItems([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -111,7 +162,19 @@ namespace Thea.Controllers
             {
                 return NotFound();
             }
+            try
+            {
+                var uploads = Path.Combine(Directory.GetCurrentDirectory(), shopItems.ImageURL);
 
+                if (System.IO.File.Exists(uploads))
+                {
+                    System.IO.File.Delete(uploads);
+                }
+            }
+            catch (Exception e)
+            {
+                //file didnt exist
+            }
             _context.ShopItems.Remove(shopItems);
             await _context.SaveChangesAsync();
 

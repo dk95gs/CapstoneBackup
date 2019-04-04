@@ -26,7 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\components\PageEditForms\" />
+    <Compile Remove="Migrations\20190402191822_add_BlogImages_add_foreignkey_blog.cs" />
+    <Compile Remove="Migrations\20190402191822_add_BlogImages_add_foreignkey_blog.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Downloads\" />
     <Folder Include="Resources\Printables\" />

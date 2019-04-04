@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,7 @@ namespace Thea.Controllers
 
         // PUT: api/Downloadables/5
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PutDownloadables([FromRoute] int id, [FromForm] Downloadables downloadables)
         {
 
@@ -93,6 +96,7 @@ namespace Thea.Controllers
 
         // POST: api/Downloadables
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PostDownloadables([FromForm] Downloadables downloadables)
         {
             try
@@ -126,6 +130,7 @@ namespace Thea.Controllers
 
         // DELETE: api/Downloadables/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteDownloadables([FromRoute] int id)
         {
             if (!ModelState.IsValid)

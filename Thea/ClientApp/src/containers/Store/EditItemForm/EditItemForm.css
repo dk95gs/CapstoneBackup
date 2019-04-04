@@ -1,0 +1,26 @@
+﻿.popup-close:link, .popup-close:visited {
+    color: darkslategrey;
+    position: absolute;
+    top: 0;
+    right: 2.5rem;
+    font-size: 5rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: all .5s;
+}
+
+.popup-close:hover {
+    color: cornflowerblue;
+}
+.react-confirm-alert-body{
+    font-size:150%;
+}
+.react-confirm-alert-button-group button{
+    font-size:150%;
+}
+.mycard{
+    padding:1rem;
+    margin:1rem;
+    border: solid 2px black;
+    border-radius: 20px;
+}

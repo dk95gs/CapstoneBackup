@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,7 @@ namespace Thea.Controllers
 
         // PUT: api/Printables/5
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PutPrintables([FromRoute] int id, [FromForm] Printables printables)
         {
             if (id != printables.Id)
@@ -90,6 +93,7 @@ namespace Thea.Controllers
 
         // POST: api/Printables
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PostPrintables([FromForm] Printables printables)
         {
             try
@@ -123,6 +127,7 @@ namespace Thea.Controllers
 
         // DELETE: api/Printables/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeletePrintables([FromRoute] int id)
         {
             if (!ModelState.IsValid)
