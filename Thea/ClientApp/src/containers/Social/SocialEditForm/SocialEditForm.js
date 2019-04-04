@@ -196,11 +196,12 @@ export class SocialEditForm extends Component {
             tableRows.push(
                 <tr key={index}>
                     <td>{tr.hrefUrl}</td>
-                    <td> <img className="tableCellImg" src={window.location.origin + "\\" + tr.imageURL} /> </td>
+                    <td> <img className="tableCellImg" src={window.location.origin + "\\" + tr.imageURL} alt="Social" /> </td>
                     <td><input type="button" className="btn btn-warning" onClick={() => { this.beginEdit(index) }} value="Edit" /></td>
                     <td><input type="button" className="btn btn-danger" onClick={(e) => { this.handleDeleteLinkSubmit(tr.id, e) }} value="Delete" /></td>
                 </tr>
             );
+            return true;
         });
         if (this.state.showInputs) {
             inputFields =

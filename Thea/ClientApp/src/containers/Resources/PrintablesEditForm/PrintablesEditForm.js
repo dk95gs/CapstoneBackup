@@ -216,6 +216,7 @@ export class PrintablesEditForm extends Component {
                     <td><input type="button" className="btn btn-danger" onClick={(e) => { this.handleDeleteLinkSubmit(tr.id, e) }} value="Delete" /></td>
                 </tr>
             );
+            return true;
         });
         if (this.state.showInputs) {
             inputFields =

@@ -3,6 +3,8 @@ import GenericBlock from '../../components/GenericBlock/GenericBlock';
 import Blog from '../../components/Blog/Blog';
 import Popup from '../../components/Popup/Popup';
 import { BlogsEditForm } from './BlogsEditForm/BlogsEditForm';
+import { AddCommentForm } from './AddCommentForm/AddCommentForm';
+import { BlogCommentsView } from './BlogCommentsView/BlogCommentsView';
 import { clearUrlHash } from '../../Helper';
 import { Link } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
@@ -22,7 +24,7 @@ export class Blogs extends Component {
             pictureSrcList: [],
             file: null,
             blogs: [],
-            editSingleBlogForm: <div></div>
+            blogComments: []
         };
         clearUrlHash();
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -34,13 +36,26 @@ export class Blogs extends Component {
         this.deleteSingleImage = this.deleteSingleImage.bind(this);
     }
 
-
     fillState = () => {
         axios.get(window.location.origin + '/api/blogs').then(response => {
             this.setState({
                 blogs: response.data
             });
         });
+    }
+    setupBlogCommentsView = (id) => {
+        axios.get(window.location.origin + "/api/comments/" + id).then((resp) => {
+            this.setState({
+                blogComments: resp.data
+            });
+        });
+        window.location.hash = '#commentsView';
+    }
+    setupAddCommentForm = (id) => {
+        this.setState({
+            id: id
+        });
+        window.location.hash = '#commentAdd';
     }
     setupEditForm = (id) => {
         axios.get(window.location.origin + '/api/blogs/' + id).then(response => {
@@ -55,6 +70,7 @@ export class Blogs extends Component {
             
         });
         window.location.hash = '#blogEdit';
+        
     }
     handleTitleChange = (event) => {
         this.setState({
@@ -179,6 +195,16 @@ export class Blogs extends Component {
         let addButton = null;
         let addForm = null;
         let editForm = null;
+        let commentForm = null;
+        let commentsView = null;
+        commentForm =
+            <Popup pageName="Add Comment" style={styles} popupId="commentAdd" crudType="add" >
+                <AddCommentForm fillState={this.fillState} id={this.state.id} />
+            </Popup>;
+        commentsView = 
+            <Popup pageName="View Comments" style={styles} popupId="commentsView" >
+                <BlogCommentsView blogComments={this.state.blogComments} />
+            </Popup>;
         if (this.props.checkIfLoggedIn()) {
             addButton =
                 <div className="editButtonContainer">
@@ -192,11 +218,11 @@ export class Blogs extends Component {
                 </div>;
             
             addForm =
-                <Popup pageName="Blog" style={styles} popupId="blogAdd" crudType="add" >
+                <Popup pageName="Add Blog" style={styles} popupId="blogAdd" crudType="add" >
                     <BlogsEditForm fillState={this.fillState}/>
                 </Popup>;
             editForm =
-                <Popup pageName="Blog" style={styles} popupId="blogEdit" >
+                <Popup pageName="Edit Blog" style={styles} popupId="blogEdit" >
                 <BlogsEditForm
                     fillState={this.fillState}
                     id={this.state.id}
@@ -217,6 +243,8 @@ export class Blogs extends Component {
         let blogPosts = this.state.blogs.map((blog, index) => {
             let editButton = null;
             let deleteButton = null;
+            let addCommentButton = null;
+            let viewCommentsButton = null;
             if (this.props.checkIfLoggedIn()) {
                 editButton =
                     <div className="editButtonContainer">
@@ -230,7 +258,27 @@ export class Blogs extends Component {
                     </div>;
                 deleteButton = <input value="Delete" className="btn btn-danger" onClick={(e) => { this.handleBlogDelete(blog.id, e)}} />
 
-            }
+            }          
+            addCommentButton = 
+                <div className="editButtonContainer">
+                    <Link
+                        to='/blogs#commentAdd'
+                    onClick={() =>
+                            this.setupAddCommentForm(blog.id)
+                        }
+                        className="btn btn-secondary"
+                    >Add Comment </Link>
+                </div>;
+            viewCommentsButton = 
+                <div className="editButtonContainer">
+                    <Link
+                        to='/blogs#viewComments'
+                    onClick={() =>
+                            this.setupBlogCommentsView(blog.id)
+                        }
+                        className="btn btn-warning"
+                    >View Comments </Link>
+                </div>;
             return <GenericBlock
                 noContent={true}
                 heading={blog.title}
@@ -242,6 +290,8 @@ export class Blogs extends Component {
                     pictureSrcList={JSON.parse(blog.pictureSrcList)}>
                     {editButton}
                     {deleteButton}
+                    {addCommentButton}
+                    {viewCommentsButton}
                 </Blog>
             </GenericBlock>
         });
@@ -254,6 +304,8 @@ export class Blogs extends Component {
                 </div>
                 {addForm}
                 {editForm}
+                {commentForm}
+                {commentsView}
                 {blogPosts}
       </div>
     );

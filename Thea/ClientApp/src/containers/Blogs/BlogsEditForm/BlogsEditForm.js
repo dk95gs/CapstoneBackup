@@ -107,10 +107,11 @@ export class BlogsEditForm extends Component {
             this.props.pictureSrcList.map((p, index) => {
                 imageRows.push(
                     <tr>
-                        <td> <img className="tableCellImg" src={window.location.origin + "/" + p} /></td>
+                        <td> <img className="tableCellImg" src={window.location.origin + "/" + p} alt="Blog" /></td>
                         <td> <input type="button" className="btn btn-danger" onClick={() => { this.props.deleteSingleImage(p, index) }} value="Delete" /></td>
                     </tr>
                 );
+                return true;
             });
         } catch (e) {
             console.log("error");

@@ -10,7 +10,7 @@ const ShopItem = (props) => {
         });
     }
     return (
-        <div className="shopItem">
+        <div className="shopItem" style={props.styles} >
             <div className="row">
                 <div className="col-2">
                     <img className="shopImage" src={window.location.origin + "/" + props.imgUrl} />

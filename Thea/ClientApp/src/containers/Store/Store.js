@@ -243,7 +243,8 @@ export class Store extends Component {
                     name={item.name}
                     description={JSON.parse(item.description)}
                     imgUrl={item.imageURL}
-                    code={item.code}>
+                    code={item.code}
+                    styles={styles}>
                     <div className="btn-group">
                         {shopItemsEditBtn}
                         {shopItemsDeleteBtn}

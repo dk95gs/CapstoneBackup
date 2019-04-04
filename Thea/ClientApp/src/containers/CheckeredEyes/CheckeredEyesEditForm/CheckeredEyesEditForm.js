@@ -184,7 +184,7 @@ export class CheckeredEyesEditForm extends Component {
                 symbolUseQAList: tempFaq
             });
         }
-        if (type == "answer") {
+        if (type === "answer") {
             tempFaq[index] = {
                 question: tempFaq[index].question,
                 answer: event.target.value.split("\n")
@@ -226,6 +226,7 @@ export class CheckeredEyesEditForm extends Component {
                         </div>
                         
                     </div>);
+                return true;
             });
         } catch (e) {
             console.log("faqContent that was passed was either null or the inccorect type");

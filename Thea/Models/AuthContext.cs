@@ -32,6 +32,7 @@ namespace Thea.Models
         public DbSet<StorePage> StorePage { get; set; }
         public DbSet<Links> Links { get; set; }
         public DbSet<ContactInfo> ContactInfo { get; set; }
+        public DbSet<Comment> Comment { get; set; }
     }
    
 }
