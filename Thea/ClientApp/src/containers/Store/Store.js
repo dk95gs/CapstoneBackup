@@ -26,7 +26,8 @@ export class Store extends Component {
             description: [],
             id: 0,
             code: '',
-            file: null
+            file: null,
+            price: 0
         };
         clearUrlHash();
 
@@ -36,6 +37,7 @@ export class Store extends Component {
         this.handleFileChange = this.handleFileChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleDeleteConfirm = this.handleDeleteConfirm.bind(this);
+        this.handlePriceChange = this.handlePriceChange.bind(this);
     }
     saveData() {
         let headers = {
@@ -49,6 +51,7 @@ export class Store extends Component {
         fd.append('description', JSON.stringify(this.state.description));
         fd.append('code', this.state.code);
         fd.append('imageURL', this.state.imageUrl);
+        fd.append('price', this.state.price);
         if (this.state.file !== null) {
             fd.append('file', this.state.file, this.state.file.name);
         }
@@ -120,6 +123,11 @@ export class Store extends Component {
     handleFileChange = (event) => {
         this.setState({
             file: event.target.files[0]
+        });
+    }
+    handlePriceChange(event) {
+        this.setState({
+            price: event.target.value
         });
     }
     fillState = () => {
@@ -210,11 +218,13 @@ export class Store extends Component {
                     imageUrl={this.state.imageUrl}
                     code={this.state.code}
                     id={this.state.id}
+                    price={this.state.price}
                     handleNameChange={this.handleNameChange}
                     handleDescriptionChange={this.handleDescriptionChange}
                     handleCodeChange={this.handleCodeChange}
                     handleFileChange={this.handleFileChange}
                     handleFormSubmit={this.handleFormSubmit}
+                    handlePriceChange={this.handlePriceChange}
                 />
                 </Popup>;
         }
@@ -244,7 +254,9 @@ export class Store extends Component {
                     description={JSON.parse(item.description)}
                     imgUrl={item.imageURL}
                     code={item.code}
-                    styles={styles}>
+                    styles={styles}
+                    price={item.price}>
+                    
                     <div className="btn-group">
                         {shopItemsEditBtn}
                         {shopItemsDeleteBtn}

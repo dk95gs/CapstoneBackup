@@ -167,8 +167,8 @@ export class Blogs extends Component {
     handleBlogDelete = (id, event) => {
         event.preventDefault();
         confirmAlert({
-            title: 'Confirm to Save Changes',
-            message: 'Are you sure you want to save these changes?.',
+            title: 'Confirm to Delete',
+            message: 'Are you sure you want to delete this blog?.',
             buttons: [
                 {
                     label: 'Yes',

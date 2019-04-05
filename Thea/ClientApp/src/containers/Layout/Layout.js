@@ -112,7 +112,10 @@ export class Layout extends Component {
                         style={style}
                         loginUser={this.props.loginUser}
                         checkIfLoggedIn={this.props.checkIfLoggedIn}
-                        logout={this.props.logout}/>
+                        logout={this.props.logout}
+                        fontColor={this.props.fontColor}
+                        bgColor={this.props.bgColor}
+                    />
                 </Footer>
                 
           </div>

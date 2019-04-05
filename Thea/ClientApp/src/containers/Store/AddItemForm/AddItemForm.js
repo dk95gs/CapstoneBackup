@@ -12,6 +12,7 @@ export class AddItemForm extends Component {
         this.state = {
             name: '',
             description: [],
+            price: 0,
             file: null,
             code: ''
         };
@@ -22,6 +23,12 @@ export class AddItemForm extends Component {
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleCodeChange = this.handleCodeChange.bind(this);
+        this.handlePriceChange = this.handlePriceChange.bind(this);
+    }
+    handlePriceChange(event) {
+        this.setState({
+            price: event.target.value
+        });
     }
     handleNameChange(event) {
         this.setState({
@@ -62,6 +69,7 @@ export class AddItemForm extends Component {
         fd.append('name', this.state.name);
         fd.append('description', JSON.stringify(this.state.description));
         fd.append('code', this.state.code);
+        fd.append('price', this.state.price);
         
         let headers = {
             headers: {
@@ -115,6 +123,10 @@ export class AddItemForm extends Component {
                     <div className="form-group">
                         <label> Code  </label>
                         <input value={this.state.code} onChange={this.handleCodeChange} className="form-control" />
+                    </div>
+                    <div className="form-group">
+                        <label> Price  </label>
+                        <input type="number" value={this.state.price} onChange={this.handlePriceChange} className="form-control" />
                     </div>
                     <div className="form-group">
                         <label> Upload Image </label>

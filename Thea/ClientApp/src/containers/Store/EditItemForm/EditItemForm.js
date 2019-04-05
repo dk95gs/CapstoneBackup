@@ -40,6 +40,10 @@ export class EditItemForm extends Component {
                         <input value={this.props.code} onChange={this.props.handleCodeChange} className="form-control" />
                     </div>
                     <div className="form-group">
+                        <label> Price  </label>
+                        <input type="number" value={this.props.price} onChange={this.props.handlePriceChange} className="form-control" />
+                    </div>
+                    <div className="form-group">
                         <label> Upload Image </label>
                         <input type="file" onChange={this.props.handleFileChange} className="form-control" />
                     </div>

@@ -59,6 +59,7 @@ export class BlogsEditForm extends Component {
         console.log(fd);
         axios.post(window.location.origin + "/api/blogs", fd, headers).then(resp => {
             this.props.fillState();
+            this.resetForm();
             document.getElementById("popup-container").scrollTop = 0;
             window.location.hash = "#root";
         });
@@ -179,8 +180,8 @@ export class BlogsEditForm extends Component {
                     </div>
                     <div className="form-group">
                         <label> Upload Images</label>
-                    <input type="file" multiple="multiple" onChange={this.handleFileUpload} className="form-control" />
-                </div>
+                        <input type="file" multiple="multiple" onChange={this.handleFileUpload} className="form-control" />
+                    </div>
                 <Link
                     to='/blogs#blogAdd'
                     onClick={this.handleFormSubmit}
