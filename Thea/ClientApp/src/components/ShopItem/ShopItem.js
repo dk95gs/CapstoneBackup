@@ -9,8 +9,11 @@ const ShopItem = (props) => {
             );
         });
     }
+    let styles = { ...props.styles }
+    styles.width = "18rem";
+    styles.margin = "1rem";
     return (
-            <div className="card" style={{ width: '18rem', margin:'1rem'}}>
+            <div className="card" style={styles}>
                 <img className="card-img-top" src={window.location.origin + "/" + props.imgUrl} alt="Card image cap"/>
                 <div className="card-body">
                     <h5 className="card-title">{props.name}</h5>

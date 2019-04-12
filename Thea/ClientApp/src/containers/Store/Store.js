@@ -153,8 +153,9 @@ export class Store extends Component {
                 id: response.data.id,
                 name: response.data.name,
                 description: JSON.parse(response.data.description),
-                imageUrl: response.data.imageUrl,
-                code: response.data.code
+                imageUrl: response.data.imageURL,
+                code: response.data.code,
+                price: response.data.price
             });
         });
         window.location.hash = '#storeItemEdit';

@@ -61,6 +61,10 @@ namespace Thea.Controllers
             if (Request.Form.Files.Count > 0)
             {
                 List<string> tempArr = JsonConvert.DeserializeObject<List<string>>(blog.pictureSrcList);
+                if(tempArr == null)
+                {
+                    tempArr = new List<string>();
+                }
                 for (int i = 0; i < Request.Form.Files.Count; i++)
                 {
                     var file = Request.Form.Files[i];

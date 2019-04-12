@@ -93,7 +93,7 @@ const GenericBlock = (props) => {
                 <ul>
                     {
                         list.map((l, index) => {
-                            return <li key={index}> <a href={window.location.origin + "//" + l.srcURL} target="_blank"> {l.title}</a></li>
+                            return <li key={index}> <a href={ l.srcURL} target="_blank"> {l.title}</a></li>
                         })
                     }
                 </ul>

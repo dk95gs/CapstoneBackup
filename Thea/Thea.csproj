@@ -31,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Downloads\" />
+    <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Printables\" />
   </ItemGroup>
 

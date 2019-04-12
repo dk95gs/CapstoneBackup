@@ -55,6 +55,7 @@ namespace Thea.Controllers
                 rec.Heading = sp.Heading;
                 rec.Description = sp.Description;
                 rec.PurchaseInfo = sp.PurchaseInfo;
+                rec.PurchaseInfoHeading = sp.PurchaseInfoHeading;
                 rec.LocationList = sp.LocationList;
             }
             await _db.SaveChangesAsync();

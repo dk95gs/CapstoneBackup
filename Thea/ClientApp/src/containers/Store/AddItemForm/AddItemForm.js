@@ -55,7 +55,9 @@ export class AddItemForm extends Component {
         this.setState({
             name: '',
             description: [],
-            code: ''
+            code: '',
+            file: null,
+            price: 0
         });
         document.getElementById("popup-container").scrollTop = 0;
         window.location.hash = "#root";
@@ -80,6 +82,7 @@ export class AddItemForm extends Component {
             this.props.fillState();
             document.getElementById("popup-container").scrollTop = 0;
             window.location.hash = "#root";
+            this.resetForm();
         });
         
     }

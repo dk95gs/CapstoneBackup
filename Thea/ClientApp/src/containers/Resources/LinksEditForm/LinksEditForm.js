@@ -215,7 +215,7 @@ export class LinksEditForm extends Component {
                     <input value={this.state.title} onChange={this.handleTitleChange} className="form-control" />
                 </div>
                 <div className="form-group">
-                    <label> Upload a PDF or word document</label>
+                    <label> Link to Site </label>
                     <input value={this.state.srcURL} onChange={this.handleSrcUrlChange} className="form-control" className="form-control" />
                 </div>
             </div>

@@ -8,6 +8,7 @@ const Blog = (props) => {
             imgs.push( <img key={index} className="blogImg" src={window.location.origin + "/" + img} alt={'image' + index} />)
         })
     }
+   
     return (
         <div className="blog">
             <div className="text-center" style={{width:'100%'}}>

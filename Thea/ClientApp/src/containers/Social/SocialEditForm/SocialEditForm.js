@@ -243,7 +243,8 @@ export class SocialEditForm extends Component {
                             <tr>
                                 <th>Url</th>
                                 <th></th>
-                                <th></th>
+                            <th></th>
+                            <th></th>
                             </tr>
                         </thead>
                         <tbody>

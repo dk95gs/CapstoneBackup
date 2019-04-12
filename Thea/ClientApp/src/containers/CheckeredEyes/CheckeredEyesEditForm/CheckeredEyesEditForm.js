@@ -262,7 +262,7 @@ export class CheckeredEyesEditForm extends Component {
                     </div>
                     <div className="form-group">
                         <label> Low Vision Block Title </label>
-                        <input value={this.state.attentionLowVissionBlockTitle} onChange={this.handleattentionLowVissionBlockTitleChange} className="form-control" />
+                        <input value={this.state.attentionLowVissionBlockTitle} onChange={this.handleAttentionLowVissionBlockTitleChange} className="form-control" />
                     </div>
                     <div className="form-group">
                         <label> Low Vision Block Content</label>
