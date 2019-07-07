@@ -102,7 +102,7 @@ namespace Thea
                 }
             });
 
-            AppDbInit.SeedUsers(userManager);
+            //AppDbInit.SeedUsers(userManager);
             
         }
     }
