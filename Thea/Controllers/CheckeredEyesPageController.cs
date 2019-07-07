@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Thea.Models;
@@ -27,12 +29,23 @@ namespace Thea.Controllers
             return rec;
         }
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<object> Update(CheckeredEyesPage cep)
         {
             var rec = _db.CheckeredEyesPages.Find(cep.Id);
             if (rec == null)
             {
-                _db.Add(cep);
+                CheckeredEyesPage tempCep = new CheckeredEyesPage
+                {
+                    AttentionLowVissionBlockTitle = cep.AttentionLowVissionBlockTitle,
+                    AttentionLowVisionBlockContent = cep.AttentionLowVisionBlockContent,
+                    AttentionSightedBlockTitle = cep.AttentionSightedBlockTitle,
+                    AttentionSightedBlockContent = cep.AttentionSightedBlockContent,
+                    SymbolUseBlockTitle = cep.SymbolUseBlockTitle,
+                    SymbolUseBlockDescription = cep.SymbolUseBlockDescription,
+                    SymbolUseQAList = cep.SymbolUseQAList
+            };
+                _db.Add(tempCep);
             }
             else
             {

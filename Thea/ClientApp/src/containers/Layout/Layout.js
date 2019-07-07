@@ -43,6 +43,10 @@ export class Layout extends Component {
         var style = {
             fontSize: this.state.fontSize + "%"
         };
+        var popupStyles = {
+            color: this.props.fontColor,
+            backgroundColor: this.props.bgColor
+        }
         let editButton = null;
         let editForm = null;
         if (this.props.checkIfLoggedIn()) {
@@ -57,7 +61,7 @@ export class Layout extends Component {
                     >Edit Header/Footer </Link>
                 </div>;
             editForm =
-                <Popup pageName="Header/Footer" popupId="headerFooterEdit" >
+                <Popup pageName="Header/Footer" popupId="headerFooterEdit" style={popupStyles}>
                 <HeaderFooterEditForm
                     id={this.state.contactInfo.id}
                     headerHeading={this.state.contactInfo.headerHeading}
@@ -108,7 +112,10 @@ export class Layout extends Component {
                         style={style}
                         loginUser={this.props.loginUser}
                         checkIfLoggedIn={this.props.checkIfLoggedIn}
-                        logout={this.props.logout}/>
+                        logout={this.props.logout}
+                        fontColor={this.props.fontColor}
+                        bgColor={this.props.bgColor}
+                    />
                 </Footer>
                 
           </div>

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Thea.Models;
@@ -27,7 +29,8 @@ namespace Thea.Controllers
 
             return rec;
         }
-        [HttpPut]
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<object> Update(StorePage sp)
         {
             if (!ModelState.IsValid)
@@ -38,13 +41,21 @@ namespace Thea.Controllers
 
             if (rec == null)
             {
-                _db.Add(sp);
+                StorePage newStore = new StorePage
+                {
+                    Heading = sp.Heading,
+                    Description = sp.Description,
+                    PurchaseInfo = sp.PurchaseInfo,
+                    PurchaseInfoHeading = sp.PurchaseInfoHeading
+                };
+                _db.Add(newStore);
             }
             else
             {
                 rec.Heading = sp.Heading;
                 rec.Description = sp.Description;
                 rec.PurchaseInfo = sp.PurchaseInfo;
+                rec.PurchaseInfoHeading = sp.PurchaseInfoHeading;
                 rec.LocationList = sp.LocationList;
             }
             await _db.SaveChangesAsync();

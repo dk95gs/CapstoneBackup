@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import GenericBlock from '../../components/GenericBlock/GenericBlock';
+import { CheckeredEyesEditForm } from './CheckeredEyesEditForm/CheckeredEyesEditForm';
+import { clearUrlHash } from '../../Helper';
+import { Link } from 'react-router-dom';
+import Popup  from '../../components/Popup/Popup';
 import axios from 'axios';
 import './CheckeredEyes.css';
 
 export class CheckeredEyes extends Component {
     displayName = CheckeredEyes.name;
-    state = {
-        SymbolUseBlockTitle: "",
-        SymbolUseBlockDescription: [],
-        SymbolUseQAList: [],
-        AttentionLowVisionBlockTitle: "",
-        AttentionLowVisionBlockContent: [
-        ],
-        AttentionSightedBlockTitle: "",
-        AttentionSightedBlockContent: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            SymbolUseBlockTitle: "",
+            SymbolUseBlockDescription: [],
+            SymbolUseQAList: [],
+            AttentionLowVisionBlockTitle: "",
+            AttentionLowVisionBlockContent: [
+            ],
+            AttentionSightedBlockTitle: "",
+            AttentionSightedBlockContent: []
+        }
+        clearUrlHash();
     }
-    componentDidMount() {
+    fillState = () => {
         axios.get(window.location.origin + "/api/checkeredeyespage").then(response => {
             const data = response.data;
             this.setState({
@@ -29,6 +37,9 @@ export class CheckeredEyes extends Component {
             });
         });
     }
+    componentDidMount() {
+        this.fillState();
+    }
     render() {
         const styles = {
             color: this.props.fontColor,
@@ -37,13 +48,31 @@ export class CheckeredEyes extends Component {
         const headerStyles = {
             filter: localStorage.getItem("headerFilter")
         };
-        
+        let editButton = null;
+        let editForm = null;
+        if (this.props.checkIfLoggedIn()) {
+            editButton =
+                <div className="editButtonContainer">
+                    <Link
+                        to='/checkeredeyes#checkeredeyesEdit'
+                        onClick={() =>
+                            window.location.hash = '#checkeredeyesEdit'
+                        }
+                        className="btn btn-secondary">Edit Page </Link>
+                </div>;
+            editForm =
+                <Popup pageName="Checkered Eyes Edit Page" style={styles} popupId="checkeredeyesEdit" >
+                    <CheckeredEyesEditForm fillState={this.fillState} />
+                </Popup>;
+        }
         return (
             <div className="myContainer">
                 <input type="button" onClick={this.props.click} className="btn btn-warning btnSwitch" value="Switch Colors" />
                 <div className="myContainerHeader" id="myContainerHeader" style={headerStyles}>
                     <h1>Checkered Eyes</h1>
+                    {editButton}  
                 </div>
+                {editForm}
                 <GenericBlock
                     heading={this.state.SymbolUseBlockTitle}
                     content={this.state.SymbolUseBlockDescription}

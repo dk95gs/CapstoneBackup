@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,18 +34,44 @@ namespace Thea.Controllers
 
         // PUT: api/SocialMedias/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSocialMedia([FromRoute] int id, [FromBody] SocialMedia socialMedia)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> PutSocialMedia([FromRoute] int id, [FromForm] SocialMedia socialMedia)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
             if (id != socialMedia.Id)
             {
                 return BadRequest();
             }
+            
+            if (Request.Form.Files.Count > 0)
+            {
+                try
+                {
+                    var uploads = Path.Combine(Directory.GetCurrentDirectory(), socialMedia.ImageURL);
 
+                    if (System.IO.File.Exists(uploads))
+                    {
+                        System.IO.File.Delete(uploads);
+                    }
+                }
+                catch (Exception e)
+                {
+                    //file didnt exist
+                }
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                Random rand = new Random();
+                var fileName = rand.Next(1, 100000).ToString() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                socialMedia.ImageURL = dbPath;
+            }
             _context.Entry(socialMedia).State = EntityState.Modified;
 
             try
@@ -60,26 +90,46 @@ namespace Thea.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(socialMedia);
         }
 
         // POST: api/SocialMedias
         [HttpPost]
-        public async Task<IActionResult> PostSocialMedia([FromBody] SocialMedia socialMedia)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> PostSocialMedia([FromForm] SocialMedia socialMedia)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (Request.Form.Files.Count > 0)
+                {
+                    var file = Request.Form.Files[0];
+                    var folderName = Path.Combine("Resources", "Images");
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    Random rand = new Random();
+                    var fileName = rand.Next(1, 100000).ToString() + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    socialMedia.ImageURL = dbPath;
+                    
+                }
+                _context.SocialMedia.Add(socialMedia);
+                await _context.SaveChangesAsync();
             }
-
-            _context.SocialMedia.Add(socialMedia);
-            await _context.SaveChangesAsync();
-
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
             return CreatedAtAction("GetSocialMedia", new { id = socialMedia.Id }, socialMedia);
         }
 
         // DELETE: api/SocialMedias/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteSocialMedia([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -91,6 +141,20 @@ namespace Thea.Controllers
             if (socialMedia == null)
             {
                 return NotFound();
+            }
+
+            try
+            {
+                var uploads = Path.Combine(Directory.GetCurrentDirectory(), socialMedia.ImageURL);
+
+                if (System.IO.File.Exists(uploads))
+                {
+                    System.IO.File.Delete(uploads);
+                }
+            }
+            catch (Exception e)
+            {
+                //file didnt exist
             }
 
             _context.SocialMedia.Remove(socialMedia);

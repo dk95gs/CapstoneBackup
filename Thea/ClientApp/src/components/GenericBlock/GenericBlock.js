@@ -32,8 +32,12 @@ const GenericBlock = (props) => {
                     lstParaFAQContent =
                         <ul>
                             {
-                                content.map((p, i) => {
+                            content.map((p, i) => {
+                                if (p !== '') {
                                     return <li key={i}>{p}</li>
+                                } else {
+                                    return <p></p>
+                                }
                                 })
                             }
                         </ul>
@@ -89,7 +93,7 @@ const GenericBlock = (props) => {
                 <ul>
                     {
                         list.map((l, index) => {
-                            return <li key={index}> <a href={l.srcURL} target="_blank"> {l.title}</a></li>
+                            return <li key={index}> <a href={ l.srcURL} target="_blank"> {l.title}</a></li>
                         })
                     }
                 </ul>
@@ -105,7 +109,7 @@ const GenericBlock = (props) => {
                 <ul>
                     {
                         list.map((l, index) => {
-                            return <li key={index}> <a href={window.location.origin + l.srcURL} target="_blank"> {l.title} </a> </li>
+                        return <li key={index}> <a href={window.location.origin + "//" + l.srcURL} target="_blank"> {l.title} </a> </li>
                         })
                     }
                 </ul>
@@ -121,7 +125,7 @@ const GenericBlock = (props) => {
                 <ul>
                     {
                         list.map((l, index) => {
-                            return <li key={index}> <a href={window.location.origin + l.srcURL} download> {l.title} </a> </li>
+                        return <li key={index}> <a href={window.location.origin + "//" + l.srcURL} download> {l.title} </a> </li>
                         })
                     }
                 </ul>

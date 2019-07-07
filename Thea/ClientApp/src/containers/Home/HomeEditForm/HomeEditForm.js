@@ -8,27 +8,19 @@ export class HomeEditForm extends Component {
     displayName = HomeEditForm.name;
     constructor(props) {
         super(props);
-        let welcomeContentString = '';
-        let missionContentString = '';
-        if (this.props.welcomeContent !== null) {
-            welcomeContentString = this.props.welcomeContent.join("\n");
-        }
-        if (this.props.welcomeContent !== null) {
-            missionContentString = this.props.missionContent.join("\n");
-        }
         this.state = {
-            id: this.props.id,
-            welcomeHeading: this.props.welcomeHeading,
-            welcomeSubHeading: this.props.welcomeSubHeading,
-            welcomeContentString: welcomeContentString,
-            welcomeContent: this.props.welcomeContent,
-            missionHeading: this.props.missionHeading,
-            missionSubHeading: this.props.missionSubHeading,
-            missionContent: this.props.missionContent,
-            missionContentString: missionContentString,
-            videoHeading: this.props.videoHeading,
-            videoDescription: this.props.videoDescription,
-            embededVideo: this.props.embededVideo
+            id: 1,
+            welcomeHeading: '',
+            welcomeSubHeading: '',
+            welcomeContentString: '',
+            welcomeContent: '',
+            missionHeading: '',
+            missionSubHeading: '',
+            missionContent: '',
+            missionContentString: '',
+            videoHeading: '',
+            videoDescription: '',
+            embededVideo: ''
         }
         this.handleWelcomeHeadingChange = this.handleWelcomeHeadingChange.bind(this);
         this.handleWelcomeSubHeadingChange = this.handleWelcomeSubHeadingChange.bind(this);
@@ -44,7 +36,7 @@ export class HomeEditForm extends Component {
         this.handleEmbededVideoChange = this.handleEmbededVideoChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.resetForm = this.resetForm.bind(this);
-
+        console.log("constructor");
 
     }
     handleWelcomeHeadingChange(event) {
@@ -94,31 +86,41 @@ export class HomeEditForm extends Component {
             embededVideo: event.target.value
         });
     }
-    resetForm() {
-        let welcomeContentString = '';
-        let missionContentString = '';
-        if (this.props.welcomeContent !== null) {
-            welcomeContentString = this.props.welcomeContent.join("\n");
-        }
-        if (this.props.welcomeContent !== null) {
-            missionContentString = this.props.missionContent.join("\n");
-        }
+    fillState() {
+        axios.get(window.location.origin + "/api/home").then(response => {
+            if (response.data !== '') {
+                let parsedWelcomeContent = null;
+                let parsedMissionContent = null;
+                let welcomeContentString = '';
+                let missionContentString = '';
 
-        this.setState({
-            id: this.props.id,
-            welcomeHeading: this.props.welcomeHeading,
-            welcomeSubHeading: this.props.welcomeSubHeading,
-            welcomeContentString: welcomeContentString,
-            welcomeContent: this.props.welcomeContent,
-            missionHeading: this.props.missionHeading,
-            missionSubHeading: this.props.missionSubHeading,
-            missionContent: this.props.missionContent,
-            missionContentString: missionContentString,
-            videoHeading: this.props.videoHeading,
-            videoDescription: this.props.videoDescription,
-            embededVideo: this.props.embededVideo
+                if (response.data.welcomeBlockContent !== '') {
+                    parsedWelcomeContent = JSON.parse(response.data.welcomeBlockContent);
+                    welcomeContentString = parsedWelcomeContent.join("\n");
+                }
+                if (response.data.missionStatementBlockContent !== '') {
+                    parsedMissionContent = JSON.parse(response.data.missionStatementBlockContent);
+                    missionContentString = parsedMissionContent.join("\n");
+                }
+                this.setState({
+                    id: response.data.id,
+                    welcomeHeading: response.data.welcomeBlockHeading,
+                    welcomeSubHeading: response.data.welcomeBlockSubHeading,
+                    welcomeContent: parsedWelcomeContent,
+                    welcomeContentString: welcomeContentString,
+                    missionHeading: response.data.missionStatementBlockHeading,
+                    missionSubHeading: response.data.missionStatementBlockSubHeading,
+                    missionContent: parsedMissionContent,
+                    missionContentString: missionContentString,
+                    embededVideo: response.data.embededVideoUrl,
+                    videoHeading: response.data.videoTitle,
+                    videoDescription: response.data.videoDescription
+                });
+            }
         });
-        document.getElementById("popup-container").scrollTop = 0;
+    }
+    resetForm() {
+        this.fillState();       
     }
     saveData() {
         let payload = {
@@ -160,6 +162,9 @@ export class HomeEditForm extends Component {
                 }
             ]
         });     
+    }
+    componentDidMount() {
+        this.fillState();
     }
     render() {
         return (

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,7 @@ namespace Thea.Controllers
 
         // PUT: api/Links/5
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PutLinks([FromRoute] int id, [FromBody] Links links)
         {
             if (!ModelState.IsValid)
@@ -65,6 +68,7 @@ namespace Thea.Controllers
 
         // POST: api/Links
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PostLinks([FromBody] Links links)
         {
             if (!ModelState.IsValid)
@@ -80,6 +84,7 @@ namespace Thea.Controllers
 
         // DELETE: api/Links/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteLinks([FromRoute] int id)
         {
             if (!ModelState.IsValid)

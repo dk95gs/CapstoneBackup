@@ -2,22 +2,26 @@ import React, { Component } from 'react';
 import GenericBlock from '../../components/GenericBlock/GenericBlock';
 import Popup from '../../components/Popup/Popup';
 import { AboutEditForm } from './AboutEditForm/AboutEditForm';
+import { clearUrlHash } from '../../Helper';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export class About extends Component {
     displayName = About.name;
-    state = {
-        id:1,
-        aboutHeading: '',
-        aboutContent: [],
-        ackTitle: '',
-        ackSubTitle:'',
-        ackContent: [],
-        FAQBlockQA: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: 1,
+            aboutHeading: '',
+            aboutContent: [],
+            ackTitle: '',
+            ackSubTitle: '',
+            ackContent: [],
+            FAQBlockQA: []
+        }
+        clearUrlHash();
     }
-    componentDidMount() {
-
+    fillState = () => {
         axios.get(window.location.origin + "/api/About").then(response => {
             const data = response.data;
             this.setState({
@@ -31,8 +35,11 @@ export class About extends Component {
             });
         });
     }
+    componentDidMount() {
+        this.fillState();
+    }
+    
     render() {
-        
         const styles = {
             color: this.props.fontColor,
             backgroundColor: this.props.bgColor
@@ -54,9 +61,9 @@ export class About extends Component {
                 >Edit Page </Link>
                 </div>;
             editForm =
-                <Popup pageName="About Page" style={styles} popupId="aboutEdit" >
-                    <AboutEditForm />
-                </Popup>;
+            <Popup pageName="About Page" style={styles} popupId="aboutEdit" >
+                <AboutEditForm fillState={this.fillState}/>
+            </Popup>;
         }
         return (
             <div className="myContainer">

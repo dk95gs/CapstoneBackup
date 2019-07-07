@@ -43,7 +43,7 @@ namespace Thea.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = "94d7eedc-2a7d-4b8d-a86e-b18aad9ba2f1", ConcurrencyStamp = "b73d4bd2-fa9c-429c-a4d1-d99f7a175303", Name = "Admin", NormalizedName = "ADMIN" }
+                        new { Id = "0f65e2e5-4400-4d0b-9fa6-5d440067a03e", ConcurrencyStamp = "fd5dd6b9-a942-4a51-aaf7-3b498a18dfd1", Name = "Admin", NormalizedName = "ADMIN" }
                     );
                 });
 
@@ -145,11 +145,9 @@ namespace Thea.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -180,11 +178,9 @@ namespace Thea.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -260,6 +256,27 @@ namespace Thea.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CheckeredEyesPages");
+                });
+
+            modelBuilder.Entity("Thea.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId");
+
+                    b.Property<string>("Body");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime>("PostedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("Thea.Models.ContactInfo", b =>
@@ -383,6 +400,8 @@ namespace Thea.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<double>("Price");
+
                     b.HasKey("Id");
 
                     b.ToTable("ShopItems");
@@ -478,6 +497,14 @@ namespace Thea.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Thea.Models.Comment", b =>
+                {
+                    b.HasOne("Thea.Models.Blog", "Blog")
+                        .WithMany()
+                        .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

@@ -82,7 +82,8 @@ export default class App extends Component {
     }
   render() {
     return (
-        <Layout loginUser={this.loginUser} checkIfLoggedIn={this.checkIfLoggedIn} logout={this.logout}>
+        <Layout loginUser={this.loginUser} checkIfLoggedIn={this.checkIfLoggedIn} logout={this.logout} bgColor={this.state.bgColor}
+            fontColor={this.state.fontColor}>
             <Route
                 exact path='/'
                 render={() =>

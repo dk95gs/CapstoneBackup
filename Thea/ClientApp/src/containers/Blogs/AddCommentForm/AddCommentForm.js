@@ -3,35 +3,60 @@ import axios from 'axios';
 import { confirmAlert } from 'react-confirm-alert';
 import { Link } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import './ResourcesEditForm.css';
+import './AddCommentForm.css';
 
-export class ResourcesEditForm extends Component {
-    displayName = ResourcesEditForm.name;
+export class AddCommentForm extends Component {
+    displayName = AddCommentForm.name;
     constructor(props) {
         super(props);
         this.state = {
-        }
+            name: '',
+            body: []
+        };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.resetForm = this.resetForm.bind(this);
-
-
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleBodyChange = this.handleBodyChange.bind(this);
+    }
+    handleNameChange(event) {
+        this.setState({
+            name: event.target.value
+        });
+    }
+    handleBodyChange(event) {
+        this.setState({
+            body: event.target.value.split("\n")
+        });
     }
     resetForm() {
         this.setState({
+            name: '',
+            body: []
         });
         document.getElementById("popup-container").scrollTop = 0;
         window.location.hash = "#root";
     }
     saveData() {
         let payload = {
+            name: this.state.name,
+            body: JSON.stringify(this.state.body),
+            blogId: this.props.id
         };
-        axios.post(window.location.origin + "/api/about", payload).then(resp => {
+        
+        let headers = {
+            headers: {
+                Authorization: "bearer " + sessionStorage.getItem("token")
+            }
+        };
+        axios.post(window.location.origin + "/api/comments", payload, headers).then(resp => {
             this.props.fillState();
+            this.resetForm();
             document.getElementById("popup-container").scrollTop = 0;
             window.location.hash = "#root";
         });
         
     }
+
     handleFormSubmit(event) {
         event.preventDefault();
         confirmAlert({
@@ -49,29 +74,33 @@ export class ResourcesEditForm extends Component {
             ]
         });     
     }
+
     render() {
+        let body = null;
+        body = this.state.body.join("\n");
         return (
             <div>
                 <Link
-                    to='/about#root'
+                    to='/blogs#root'
                     onClick={this.resetForm}
                     className="popup-close">&times;</Link>
                 <form>
                     <div className="form-group">
-                        <label> Label</label>
-                        <input className="form-control" />
+                        <input hidden type="text" value={this.props.id} />
+                        <label> Your Name </label>
+                        <input value={this.state.name} onChange={this.handleNameChange} className="form-control" />
                     </div>
                     <div className="form-group">
-                        <label> Label</label>
-                        <textarea rows="7" className="form-control"></textarea>
+                        <label> Comment  </label>
+                        <textarea rows="7" value={body} onChange={this.handleBodyChange} className="form-control"></textarea>
                     </div>
                     <Link
-                        to='/about#aboutEdit'
+                        to='/blog#commentAdd'
                         onClick={this.handleFormSubmit}
                         className="btn btn-primary">Save Changes </Link>
 
                     <Link
-                        to='/about#root'
+                        to='/blogs#root'
                         onClick={this.resetForm}
                         className="btn btn-danger"
                         style={{ marginLeft: "1rem" }}>

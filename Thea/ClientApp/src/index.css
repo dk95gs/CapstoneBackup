@@ -9,6 +9,7 @@
 }
 body {
     background-image: linear-gradient(#FFFDE4, #005AA7 );
+
 }
 h1 {
     font-size: 300%;
@@ -33,6 +34,7 @@ textarea {
     border-radius: 25px;
     box-shadow: inset 0 0 10px #000000; 
     transition:all .5s;
+    overflow:auto;
 }
 .myContainerHeader {
     width: 100%;
@@ -60,8 +62,8 @@ textarea {
 }
 .btnSwitch {
     position: fixed;
-    top: 150px;
-    right: 1rem;
+    top: 0;
+    left: 0;
     z-index: 1000;
 }
 p, li {

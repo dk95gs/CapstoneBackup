@@ -1,4 +1,7 @@
 ﻿import React, { Component } from 'react';
+import Popup from '../../components/Popup/Popup';
+import { Reports } from '../Reports/Reports';
+import { Link } from 'react-router-dom';
 import './Auth.css';
 
 
@@ -77,12 +80,55 @@ export class Auth extends Component  {
                 </div>
             );
         } else {
+            const styles = {
+                color: this.props.fontColor,
+                backgroundColor: this.props.bgColor
+            };
+            let blogReport = 
+                <Popup pageName="Monthly Blogs Report" style={styles} popupId="blogsReport" >
+                    <Reports type="blogs" />
+                </Popup>;
+                
+            let shopItemReport = 
+                <Popup pageName="Monthly Shop Items Report" style={styles} popupId="shopItemsReport" >
+                    <Reports type="shopitems" />
+                </Popup>;;
+
+            let blogReportBtn = 
+                <div className="editButtonContainer">
+                    <Link
+                        to='/#blogsReport'
+                        onClick={() =>
+                            window.location.hash = '#blogsReport'
+                        }
+                        className="btn btn-secondary"
+                    >Blogs Report </Link>
+                </div>;
+            let shopItemReportBtn = 
+                <div className="editButtonContainer">
+                    <Link
+                        to='/#shopItemsReport'
+                        onClick={() =>
+                            window.location.hash = '#shopItemsReport'
+                        }
+                        className="btn btn-secondary"
+                    >Shop items Report </Link>
+                </div>;
+                ;
+
             return (
+                
                 <div>
                     <div className="row text-center">
                         <div className="col-12">
-                            <input type="button" className="btn btn-danger" value="Logout" onClick={this.props.logout} />
+                            <div className="btn-group">
+                                <input type="button" className="btn btn-danger" value="Logout" onClick={this.props.logout} />
+                                {blogReportBtn}
+                                {shopItemReportBtn}
+                            </div>
                         </div>
+                        {blogReport}
+                        {shopItemReport}
                     </div>
                 </div>
                 );
